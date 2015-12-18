@@ -1,0 +1,77 @@
+<html>
+<head>
+    <title>{% block title%}{% endblock %} - Administración</title>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    {% block link %}
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+          integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    {% endblock %}
+    {% block script %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    {% endblock %}
+</head>
+<body>
+<style>
+    body{
+        margin: 0;
+    }
+    .nav-element{
+        display: inline-block;
+        list-style: none;
+    }
+    .sub-nav{
+        display: none;
+        position: absolute;
+        margin: 0 auto;
+        padding: 10px;
+        background-color: lightgray;
+        transition: all 1s;
+    }
+    .sub-nav-element{
+        display: block;
+        list-style: none;
+    }
+
+</style>
+
+    <div class="full col-md-12-col-xs-12">
+        <nav>
+            <div class="nav">
+                <ul class="navegacion">
+                    <li class="nav-element">
+                        <a href="#">Usuarios <span class="glyphicon glyphicon-menu-down"></span></a>
+                        <ul class="sub-nav">
+                            <li class="sub-nav-element"><a href="{{ path('create.user') }}">Crear usuario</a></li>
+                            <li class="sub-nav-element"><a href="#">Editar usuario</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-element"><a href="#">Bloques <span class="glyphicon glyphicon-menu-down"></span></a>
+                        <ul class="sub-nav">
+                            <li class="sub-nav-element"><a href="#">Crear bloque</a></li>
+                            <li class="sub-nav-element"><a href="#">Editar bloque</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+
+    {% block content %}
+    {% endblock %}
+
+<script>
+    $(document).ready(function(){
+        $('li.nav-element:has(.sub-nav)').hover(function(){
+            $(this).find('ul').slideDown(300);
+        }, function(){
+            $(this).find('ul').slideUp(600);
+        });
+    });
+</script>
+</body>
+
+</html>

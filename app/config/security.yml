@@ -1,0 +1,29 @@
+# To get started with security, check out the documentation:
+# http://symfony.com/doc/current/book/security.html
+security:
+
+    encoders:
+        IndexBundle\Entity\Users:
+            algorithm: bcrypt
+
+    providers:
+        users:
+            entity:
+                class: IndexBundle:Users
+                property: username
+
+    firewalls:
+        login:
+            pattern: ^/admin/login$
+            security: false
+
+        secured_area:
+            pattern: /admin/*
+            form_login:
+                check_path: /admin/dologin
+                login_path: /admin/login
+                default_target_path: /admin/index
+            logout:
+                path: /admin/logout
+                target: /admin/login
+            provider: users
