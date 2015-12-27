@@ -31,7 +31,10 @@ class HomeController extends Controller
     public function indexAction()
     {
         $user = $this->getUser();
-        return $this->render("IndexBundle:admin:index.html.twig", array('user' => $user));
+        return $this->render("IndexBundle:admin:index.html.twig", array(
+            'user' => $user,
+            'active' => 'inicio'
+        ));
     }
 
     /**
@@ -77,20 +80,24 @@ class HomeController extends Controller
                     $em->persist($user);
                     $em->flush();
 
-                    $this->addFlash('mensaje', 'El usuario ha sido creado');
+                    $this->addFlash('msg', 'El usuario ha sido creado');
+                    return $this->redirectToRoute("users");
                 }else{
                     $this->addFlash('mensaje', 'El nombre de usuario o email ya son usados por otro usuario');
+                    return $this->redirectToRoute("create.user");
                 }
 
             }else{
                 return $this->render('IndexBundle:admin:createUser.html.twig', array(
                     'form' => $form->createView(),
+                    "active" => "usuarios",
                 ));
             }
         }
 
         return $this->render('IndexBundle:admin:createUser.html.twig', array(
             'form' => $form->createView(),
+            'active' => "usuarios",
         ));
     }
 }
