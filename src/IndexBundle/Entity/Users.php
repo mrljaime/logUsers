@@ -66,6 +66,22 @@ class Users implements UserInterface, \Serializable
      */
     private $isActive;
 
+    /**
+     * @ORM\Column(name="created_at", type="datetime")
+     */
+    private $createdAt;
+
+    /**
+     * @param $createAt
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+    }
+
+    public function getCreatedAt(){
+        return $this->createdAt;
+    }
 
     /**
      * Get id
@@ -222,6 +238,7 @@ class Users implements UserInterface, \Serializable
             $this->id,
             $this->username,
             $this->password,
+            $this->createdAt,
         ));
     }
 
@@ -231,6 +248,7 @@ class Users implements UserInterface, \Serializable
             $this->id,
             $this->username,
             $this->password,
+            $this->createdAt,
             ) = unserialize($serialized);
     }
 
