@@ -9,14 +9,11 @@
 namespace IndexBundle\Controller;
 
 use IndexBundle\Entity\Users;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
+use Symfony\Component\Security\Core\Security;
 
 class IndexController extends Controller
 {
@@ -25,7 +22,15 @@ class IndexController extends Controller
      */
     public function loginAction(Request $request)
     {
-        return $this->render("IndexBundle:admin:login.html.twig");
+        $authenticationUtils = $this->get('security.authentication_utils');
+
+        $error = $authenticationUtils->getLastAuthenticationError();
+
+        $data = array(
+            'error' => $error,
+        );
+
+        return $this->render("IndexBundle:admin:login.html.twig", $data);
     }
 
     /**
