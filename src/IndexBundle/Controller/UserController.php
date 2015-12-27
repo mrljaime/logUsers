@@ -75,7 +75,9 @@ class UserController extends Controller
             if($form->isSubmitted() && $form->isValid()){
                 $data = $form->getData();
 
-                if($this->sameAsEdit($editUser, $data)){
+                //Don't fucking repeat yourself!!!!!    
+                if($this->sameAsEdit($editUser, $data) || ($this->selectUseAndEmail($em, $data->getUsername(),
+                        $data->getEmail()))){
                     $editUser->setName($data->getName());
                     $editUser->setUsername($data->getUsername());
                     $editUser->setEmail($data->getEmail());
@@ -85,28 +87,11 @@ class UserController extends Controller
                     $this->addFlash("msg", sprintf("El usuario %s ha sido editado correctamente", $editUser->getName()));
 
                     return $this->redirectToRoute("users");
-                }else {
-
-                    if ($this->selectUseAndEmail($em, $data->getUsername(), $data->getEmail())) {
-
-                        $editUser->setName($data->getName());
-                        $editUser->setUsername($data->getUsername());
-                        $editUser->setEmail($data->getEmail());
-                        $em->persist($editUser);
-                        $em->flush();
-
-                        $this->addFlash("msg", sprintf("El usuario %s ha sido editado correctamente", $editUser->getName()));
-
-                        return $this->redirectToRoute("users");
-                    } else {
-                        $this->addFlash("msg", "El nombre de usuario o email ya estan registrados");
-                        return $this->redirect($request->server->get('HTTP_REFERER'));
+                }else
+                    $this->addFlash("msg", "El nombre de usuario o email ya estan registrados");
+                    return $this->redirect($request->server->get('HTTP_REFERER'));
                     }
                 }
-            }
-        }
-
-
         return $this->render("IndexBundle:admin:editUser.html.twig", array(
             "active" => "usuarios",
             "form" => $form->createView(),
