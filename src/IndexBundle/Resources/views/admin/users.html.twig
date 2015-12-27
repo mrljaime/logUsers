@@ -1,0 +1,71 @@
+{% extends "IndexBundle::base.html.twig" %}
+
+{% block title %}
+    Usuarios
+{% endblock %}
+
+{% block content %}
+<style>
+    .no-float{
+        float: none;
+    }
+    .my-card{
+        border: solid 1px lightgrey;
+        border-radius: .2em;
+    }
+    .margin-top-15{
+        margin-top: 15px;
+    }
+    .my-card{
+        text-align: center;
+        padding-bottom:10px;
+    }
+    @media (max-width: 480px){
+        .cards{
+            margin-top: 15px;
+        }
+    }
+</style>
+
+    <div class="col-md-12 margin-top-15 ">
+        <button type="button" class="btn btn-default" onclick="location.href='{{ path("create.user") }}'">
+            Crear usuario</button>
+    </div>
+
+    <div class="col-md-12 margin-top-15">
+        {% for user in users %}
+            <div class="col-md-4 center-block cards">
+                    <div class="my-card center-block">
+                        <h2>{{ user.name }}</h2>
+                        <h4>{{ user.username }}</h4>
+                        <p>Creado hace: {{ user.createdAt|diff(user.createdAt) }}</p>
+                        <button class="btn btn-primary" type="button" onclick="location.href='edituser/'+{{ user.id }}">
+                        Editar</button>
+                        <button class="btn btn-danger" type="button" onclick="location.href='deleteuser/'+{{ user.id }}"
+                        >Eliminar</button>
+                    </div>
+            </div>
+        {% endfor %}
+    </div>
+
+
+    <div class="col-md-5 no-float center-block">
+        {% for flash_message in app.session.flashbag.get("msg") %}
+            <div class="col-md-12 margin-top-15">
+                <div class="alert alert-success" role="alert">
+                    {{ flash_message }}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <div class="col-md-5 no-float center-block">
+        {% for flash_message in app.session.flashbag.get("alert") %}
+            <div class="col-md-12 margin-top-15">
+                <div class="alert alert-danger" role="alert">
+                    {{ flash_message }}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

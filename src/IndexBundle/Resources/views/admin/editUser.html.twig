@@ -1,0 +1,46 @@
+{% extends "IndexBundle::base.html.twig" %}
+
+{% block title %}
+    Editar Usuario
+{% endblock %}
+
+{% block content %}
+<style>
+    .no-float{
+        float: none;
+    }
+    .margin-top-10{
+        margin-top: 10px;
+    }
+    .form{
+        margin-top: 50px;
+    }
+</style>
+
+    <div class="col-md-12">
+        <div class="col-md-6 no-float center-block form">
+            {{ form_start(form, {"method": "post", "action" : path("edit.user", {"id" : user.id})}) }}
+            {{ form_label(form.name) }}
+            {{ form_widget(form.name, {'attr' : {'class': 'form-control'}}) }}
+            <div class="errors">{{ form_errors(form.name) }}</div>
+            {{ form_label(form.username) }}
+            {{ form_widget(form.username, {'attr': {'class': 'form-control'}}) }}
+            <div class="errors">{{ form_errors(form.username) }}</div>
+            {{ form_label(form.email) }}
+            {{ form_widget(form.email, {'attr': {'class' : 'form-control'}}) }}
+            <div class="errors">{{ form_errors(form.email) }}</div>
+            {{ form_widget(form.save, {'attr': {'clsss': 'btn btn-primary'}}) }}
+            {{ form_end(form) }}
+        </div>
+    </div>
+
+    <div class="col-md-12">
+        {% for message in app.session.flashbag.get("msg") %}
+                <div class="alert alert-danger" role="alert">
+                    {{ message }}
+                </div>
+        {% endfor %}
+    </div>
+
+
+{% endblock %}
