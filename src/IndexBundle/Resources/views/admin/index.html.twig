@@ -4,4 +4,32 @@
     {% endblock %}
 
 {% block content %}
+<style>
+    .no-float{
+        float: none;
+    }
+    button{
+        width: 90%;
+        margin-top: 10px;
+    }
+</style>
+
+        <div style="margin-top: 30px" class="col-md-10 no-float center-block text-center">
+            <div class="button col-md-3">
+                <button type="button" class="btn btn-default"
+                        onclick="location.href='{{ path('post.index') }}'">Publicaciones</button>
+            </div>
+            <div class="button col-md-3">
+                <button type="button" class="btn btn-default"
+                        onclick="location.href='{{ path('category') }}'">Categorías</button>
+            </div>
+            <div class="button col-md-3">
+                <button type="button" class="btn btn-default">Redes</button>
+            </div>
+            <div class="button col-md-3">
+                <button type="button" class="btn btn-default"
+                        onclick="location.href='{{ path('users') }}'">Usuarios</button>
+            </div>
+        </div>
+
 {% endblock %}

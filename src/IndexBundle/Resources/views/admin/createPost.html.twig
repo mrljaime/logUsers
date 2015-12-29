@@ -22,7 +22,7 @@
             {{ form_widget(form.shortDescription, {"attr" : {"class" : "form-control"}}) }}
             {{ form_errors(form.shortDescription) }}
             {{ form_label(form.content) }}
-            {{ form_widget(form.content, {"attr" : {"class" : "form-control"}}) }}
+            {{ form_widget(form.content, {"attr" : {"class" : "form-control", "rows" : 10}}) }}
             {{ form_errors(form.content) }}
             {{ form_widget(form.userId, {"attr" : {"value" : app.user.id}}) }}
             {{ form_widget(form.bannerId) }}
@@ -55,14 +55,6 @@
 
 <script>
     $(document).ready(function () {
-
-        /*
-        $.get("{{ path("viewItems") }}", function(data, status) {
-            $.each(data, function(index, category){
-                $('#form_categoryId').append(new Option(category.name, category.id));
-            });
-        });
-        */
 
         input = $("#file");
 

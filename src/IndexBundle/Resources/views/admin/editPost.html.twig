@@ -1,0 +1,103 @@
+{% extends "IndexBundle::base.html.twig" %}
+
+{% block title %}
+    Editar publicación
+{% endblock %}
+
+{% block content %}
+<style>
+    .margin-top-15{
+        margin-top: 15px;
+    }
+    .no-float{
+        float: none;
+    }
+    .margin-top-10{
+        margin-top: 10px;
+    }
+    input[type=submit]{
+        left: 0;
+    }
+    .errors ul li{
+        list-style: none;
+        color: darkred;
+    }
+    .container{
+        margin-bottom: 35px;
+    }
+</style>
+
+<div class="container">
+
+    <div class="col-md-7 col-xs-8 no-float center-block form margin-top-15">
+        {{ form_start(form, {"method" : "POST"}) }}
+        {{ form_label(form.title) }}
+        {{ form_widget(form.title, {"attr" : {"class" : "form-control"}}) }}
+        <div class="errors">{{ form_errors(form.title) }}</div>
+        {{ form_label(form.shortDescription) }}
+        {{ form_widget(form.shortDescription, {"attr" : {"class" : "form-control"}}) }}
+        <div class="errors">{{ form_errors(form.shortDescription) }}</div>
+        {{ form_label(form.content) }}
+        {{ form_widget(form.content, {"attr" : {"class" : "form-control", "rows" : 10}}) }}
+        <div class="errors">{{ form_errors(form.content) }}</div>
+        {{ form_widget(form.isActive) }} Activo
+        <div class="errors">{{ form_errors(form.isActive) }}</div>
+        {{ form_label(form.categoryId) }}
+        {{ form_widget(form.categoryId, {"attr" : {"class" : "form-control"}}) }}
+        <div class="errors">{{ form_errors(form.categoryId) }}</div>
+        <label>Imagen de portada</label>
+        <br>
+        <input type="file" id="file" class="form-control">
+        {{ form_widget(form.save, {"attr" : {"class" : "btn btn-primary margin-top-10"}}) }}
+        {{ form_widget(form.userId) }}
+        {{ form_widget(form.bannerId) }}
+        {{ form_end(form) }}
+        <img src="{{ asset("pictures/"~urlPicture) }}" alt="" id="picture" class="img-responsive no-float center-block">
+    </div>
+</div>
+
+
+
+
+
+
+<script>
+    $(document).ready(function(){
+
+        $('#form_content').html("{{ content }}");
+
+        input = $("#file");
+
+        $(input).change(function () {
+            file = $(input)[0].files[0];
+
+            fileName = file.name;
+            ext = fileName.substr(fileName.lastIndexOf(".")+1);
+            console.log(ext);
+
+            if(ext == "jpg" || ext == "jpeg" || ext == "png" || ext == "gif"){
+                formData = new FormData();
+                formData.append("file", file);
+                $.ajax({
+                    url: "{{ path("upload.picture") }}",
+                    type: "POST",
+                    data : formData,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+
+                    success: function(data){
+                        console.log(data);
+                        $("#form_bannerId").attr("value", data.id);
+                        $("#picture").attr("width", "80%");
+                        $("#picture").attr("src", data.url);
+                    },
+                    error: function(error){
+                        console.log(error);
+                    }
+                });
+            }
+        });
+    });
+</script>
+{% endblock %}

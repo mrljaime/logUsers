@@ -36,6 +36,18 @@
             Crear publicación</button>
     </div>
 
+    {% if posts|length == 0 %}
+        <div class="col-md-5 no-float center-block">
+                <div class="col-md-12 margin-top-15">
+                    <div class="alert alert-success" role="alert">
+                        No tienes publicaciones hasta el momento.
+                        <a href="{{ path("post.create") }}" title="Crear publicación">Deseas crear una?</a>
+                    </div>
+                </div>
+        </div>
+    {% endif %}
+
+
     <div class="col-md-12 margin-top-15">
         {% for post in posts %}
             <div class="col-md-4 center-block cards">
@@ -46,9 +58,11 @@
                     <h4>{{ post.categoryId.name }}</h4>
                     <h4>{{ (post.isActive == 1) ? "Activo" : "Inactivo" }}</h4>
                     <p>Creado hace: {{ post.createdAt|diff(post.createdAt) }}</p>
-                    <button class="btn btn-primary" type="button">
+                    <button class="btn btn-primary" type="button"
+                            onclick="location.href='{{ path('post.edit', {"id" : post.id}) }}'">
                         Editar</button>
-                    <button class="btn btn-danger" type="button">
+                    <button class="btn btn-danger" type="button"
+                            onclick="location.href='{{ path('post.delete', {"id" : post.id} ) }}'">
                         Eliminar</button>
                 </div>
             </div>
