@@ -1,0 +1,29 @@
+{% extends "IndexBundle::base.html.twig" %}
+
+{% block title %}
+    Crear Categoria
+{% endblock %}
+{% block content %}
+<style>
+    .no-float{
+        float: none;
+    }
+    .margin-top-10{
+        margin-top: 10px;
+    }
+</style>
+
+<div class="container">
+    <div class="col-md-5 no-float center-block margin-top-10">
+        {{ form_start(form, {"method": "POST"}) }}
+        {{ form_label(form.name) }}
+        {{ form_widget(form.name, {"attr" : {"class": "form-control"}}) }}
+        <div class="errors">{{ form_errors(form.name) }}</div>
+        {{ form_widget(form.isActive, {"attr" : {"class" : "no-float center-block", "value" : 1}}) }}Activo
+        <div class="errors">{{ form_errors(form.isActive) }}</div>
+        {{ form_widget(form.save, {"attr" : {"class" : "btn btn-primary margin-top-10"}}) }}
+        {{ form_end(form) }}
+    </div>
+</div>
+
+{% endblock %}

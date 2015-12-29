@@ -1,0 +1,90 @@
+{% extends "IndexBundle::base.html.twig" %}
+{% block title %}
+    Crear publicación
+{% endblock %}
+
+{% block content %}
+<style>
+    .no-float{
+        float: none;
+    }
+    .margin-top-15{
+        margin-top: 15px;
+    }
+</style>
+    <div class="container">
+        <div class="col-md-5 no-float center-block margin-top-15">
+            {{ form_start(form, {"method" : "POST"}) }}
+            {{ form_label(form.title) }}
+            {{ form_widget(form.title, {"attr" : {"class" : "form-control"}}) }}
+            {{ form_errors(form.title) }}
+            {{ form_label(form.shortDescription) }}
+            {{ form_widget(form.shortDescription, {"attr" : {"class" : "form-control"}}) }}
+            {{ form_errors(form.shortDescription) }}
+            {{ form_label(form.content) }}
+            {{ form_widget(form.content, {"attr" : {"class" : "form-control"}}) }}
+            {{ form_errors(form.content) }}
+            {{ form_widget(form.userId, {"attr" : {"value" : app.user.id}}) }}
+            {{ form_widget(form.bannerId) }}
+            {{ form_label(form.categoryId) }}
+            {{ form_widget(form.categoryId, {"attr": {"class" : "form-control"}}) }}
+            {{ form_errors(form.categoryId) }}
+            {{ form_widget(form.isActive, {"attr" : {"value" : 1}}) }} Activo
+            <br>
+            <label for="file">Imagen de portada</label>
+            <input type="file" id="file" class="form-control" name="file">
+            {{ form_widget(form.save, {"attr" : {"class" : "btn btn-primary margin-top-15"}}) }}
+            <br>
+            {{ form_end(form) }}
+            <img src="" alt="" id="picture" class="img-responsive no-float center-block">
+        </div>
+    </div>
+
+
+
+<script>
+    $(document).ready(function () {
+
+        /*
+        $.get("{{ path("viewItems") }}", function(data, status) {
+            $.each(data, function(index, category){
+                $('#form_categoryId').append(new Option(category.name, category.id));
+            });
+        });
+        */
+
+        input = $("#file");
+
+        $(input).change(function () {
+            file = $(input)[0].files[0];
+
+            fileName = file.name;
+            ext = fileName.substr(fileName.lastIndexOf(".")+1);
+            console.log(ext);
+
+            if(ext == "jpg" || ext == "jpeg" || ext == "png" || ext == "gif"){
+                formData = new FormData();
+                formData.append("file", file);
+                $.ajax({
+                    url: "{{ path("upload.picture") }}",
+                    type: "POST",
+                    data : formData,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+
+                    success: function(data){
+                        console.log(data);
+                        $("#form_bannerId").attr("value", data.id);
+                        $("#picture").attr("width", "80%");
+                        $("#picture").attr("src", data.url);
+                    },
+                    error: function(error){
+                        console.log(error);
+                    }
+                });
+            }
+        });
+    });
+</script>
+{% endblock %}

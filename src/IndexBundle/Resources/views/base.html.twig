@@ -75,6 +75,9 @@
     li>a:hover{
         color: white;
     }
+    body{
+        margin-bottom: 20px;
+    }
 
     @media (max-width: 480px){
         .menuItem{
@@ -105,7 +108,19 @@
                     <li class="n-sub-element"><a href="{{ path('create.user') }}">Crear usuario</a></li>
                 </ul>
             </li>
-            <li class="n-element {{ (active=="publicaciones")? "menu-item-active" : "" }}"><a href="#">Publicaciones</a></li>
+            <li class="n-element {{ (active=="publicaciones")? "menu-item-active" : "" }}">
+                <a href="#">Publicaciones</a>
+                <ul class="sub-nav">
+                    <li class="n-sub-element"><a href="{{ path("post.index") }}">Ver todas</a></li>
+                    <li class="n-sub-element"><a href="{{ path("post.create") }}">Crear publicación</a></li>
+                </ul>
+            </li>
+            <li class="n-element {{ (active=="categorias")? "menu-item-active" : "" }}"><a href="#">Categorias</a>
+                <ul class="sub-nav">
+                    <li class="n-sub-element"><a href="{{ path("category") }}">Ver todas</a></li>
+                    <li class="n-sub-element"><a href="{{ path('create.category') }}">Crear categoría</a></li>
+                </ul>
+            </li>
             <li class="n-elemenst {{ (active=="redes")? "menu-item-active" : "" }}"><a href="#">Redes</a></li>
             <li class="n-element"><a href="#">{{ app.user.name }}</a>
                 <ul class="sub-nav">

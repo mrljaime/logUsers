@@ -1,0 +1,79 @@
+{% extends "IndexBundle::base.html.twig" %}
+
+{% block title %}
+    Categorías
+{% endblock %}
+
+{% block content %}
+
+<style>
+    .no-float{
+        float: none;
+    }
+    .my-card{
+        border: solid 1px lightgrey;
+        border-radius: .2em;
+    }
+    .margin-top-15{
+        margin-top: 15px;
+    }
+    .my-card{
+        text-align: center;
+        padding-bottom:10px;
+    }
+    @media (max-width: 480px){
+        .cards{
+            margin-top: 15px;
+        }
+    }
+    @media (max-width: 900px){
+        .cards{
+            margin-top: 15px;
+        }
+    }
+</style>
+
+<div class="col-md-12 margin-top-15 ">
+    <button type="button" class="btn btn-default" onclick="location.href='{{ path('create.category') }}'">Crear categoría</button>
+</div>
+
+    {% if category|length > 0 %}
+<div class="col-md-12 margin-top-15">
+        {% for cat in category %}
+        <div class="col-md-4 center-block cards">
+            <div class="my-card center-block">
+                <h2>{{ cat.name }}</h2>
+                <h4>{{ (cat.isActive == 1) ? "Activa" : "Inactiva"}}</h4>
+                <p>Creado hace: {{ cat.createdAt|diff(cat.createdAt) }}</p>
+                <button class="btn btn-primary" type="button" onclick="location.href='edit/{{ cat.id }}'">
+                    Editar</button>
+                <button class="btn btn-danger" type="button" onclick="location.href='delete/{{ cat.id }}'">
+                    Eliminar</button>
+            </div>
+        </div>
+        {% endfor %}
+</div>
+    {% endif %}
+
+    <div class="col-md-5 no-float center-block">
+        {% for flash_message in app.session.flashbag.get("msg") %}
+            <div class="col-md-12 margin-top-15">
+                <div class="alert alert-success" role="alert">
+                    {{ flash_message }}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <div class="col-md-5 no-float center-block">
+        {% for flash_message in app.session.flashbag.get("alert") %}
+            <div class="col-md-12 margin-top-15">
+                <div class="alert alert-danger" role="alert">
+                    {{ flash_message }}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+
+{% endblock %}

@@ -1,0 +1,83 @@
+{% extends "IndexBundle::base.html.twig" %}
+
+{% block title %}
+    Publicaciones
+{% endblock %}
+
+{% block content %}
+<style>
+    .no-float{
+        float: none;
+    }
+    .my-card{
+        border: solid 1px lightgrey;
+        border-radius: .2em;
+    }
+    .margin-top-15{
+        margin-top: 15px;
+    }
+    .my-card{
+        text-align: center;
+        padding-bottom:10px;
+    }
+    @media (max-width: 480px){
+        .cards{
+            margin-top: 15px;
+        }
+    }
+    @media (max-width: 900px){
+        .cards{
+            margin-top: 15px;
+        }
+    }
+</style>
+
+    <div class="col-md-12 margin-top-15 ">
+        <button type="button" class="btn btn-default">
+            Crear publicación</button>
+    </div>
+
+    <div class="col-md-12 margin-top-15">
+        {% for post in posts %}
+            <div class="col-md-4 center-block cards">
+                <div class="my-card center-block">
+                    <img src="{{ asset("pictures/"~post.bannerId.path) }}" class="img-responsive" alt="">
+                    <h2>{{ post.title }}</h2>
+                    <h4>{{ post.userId.name }}</h4>
+                    <h4>{{ post.categoryId.name }}</h4>
+                    <h4>{{ (post.isActive == 1) ? "Activo" : "Inactivo" }}</h4>
+                    <p>Creado hace: {{ post.createdAt|diff(post.createdAt) }}</p>
+                    <button class="btn btn-primary" type="button">
+                        Editar</button>
+                    <button class="btn btn-danger" type="button">
+                        Eliminar</button>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+
+    <div class="col-md-5 no-float center-block">
+        {% for flash_message in app.session.flashbag.get("msg") %}
+            <div class="col-md-12 margin-top-15">
+                <div class="alert alert-success" role="alert">
+                    {{ flash_message }}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <div class="col-md-5 no-float center-block">
+        {% for flash_message in app.session.flashbag.get("alert") %}
+            <div class="col-md-12 margin-top-15">
+                <div class="alert alert-danger" role="alert">
+                    {{ flash_message }}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+
+
+
+{% endblock %}
