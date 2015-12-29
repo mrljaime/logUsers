@@ -2,15 +2,68 @@
     <head>
         <title>Picboard - Login</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.1.1/foundation.css">
+        <link href='https://fonts.googleapis.com/css?family=Poiret+One' rel='stylesheet' type='text/css'>
+        <link href='https://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     </head>
 
 <body>
+<style>
+    body{
+        margin: 0;
+        padding: 0;
+        background-image: url("http://eskipaper.com/images/tumblr-flower-backgrounds-1.jpg");
+        -webkit-background-size: cover;
+        background-size:cover;
+        background-position: center center;
+    }
 
-    <div class="row">
-        <div class="large-8 columns"></div>
+    .full{
+        position: absolute;
+        top : 40%;
+        padding: 20px;
+        background-color: rgba(0, 0, 0, 0.48);
+        color: #C2FFF8;
+    }
+    h2{
+        font-family: 'Lobster', cursive;
+    }
+    h5{
+        font-family: 'Poiret One', cursive;
+        font-weight: bolder;
+    }
+
+    .button{
+        background-color: lightpink;
+    }
+    .button:hover{
+        background-color: deeppink;
+    }
+
+</style>
+    <div class="full">
+        <div class="presentation large-8 large-centered small-8 small-centered">
+            <h2>Bienvenido a este pequeño picboard</h2>
+            <h5>El espacio donde puedes subir tus fotos, compartirlas, e incluso obtener codigo html para colocarlas en algún sitio</h5>
+
+            <div class="large-6 large-centered">
+                <div class="form">
+                    <form action="{{ path('pic_dologin') }}" method="POST">
+                        <input type="text" name="_username" placeholder="Nombre de usuario">
+                        <input type="password" name="_password" placeholder="Contraseña">
+                        <input type="hidden" name="_target_path" value="{{ path('picboard.index') }}">
+                        <button type="submit" class="button">Puedes pasar</button>
+                    </form>
+                    {% if error %}
+                        <p style="color: #C2FFF8">{{ error.message|replace({ "Bad credentials.": "El usuario y la contraseña no son correctos" }) }}</p>
+                    {% endif %}
+                </div>
+            </div>
+
+        </div>
     </div>
+
 
 </body>
 </html>
