@@ -12,13 +12,12 @@
     .my-card{
         border: solid 1px lightgrey;
         border-radius: .2em;
+        text-align: center;
+        padding-bottom:10px;
+        margin-top: 10px;
     }
     .margin-top-15{
         margin-top: 15px;
-    }
-    .my-card{
-        text-align: center;
-        padding-bottom:10px;
     }
     @media (max-width: 480px){
         .cards{
@@ -33,7 +32,7 @@
 </style>
 
     <div class="col-md-12 margin-top-15 ">
-        <button type="button" class="btn btn-default">
+        <button type="button" class="btn btn-default" onclick="location.href='{{ path('post.create') }}'">
             Crear publicación</button>
     </div>
 

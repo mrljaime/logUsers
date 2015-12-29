@@ -3,7 +3,9 @@
 namespace IndexBundle\Controller;
 
 use Doctrine\Common\Collections\Criteria;
+use Doctrine\ORM\EntityRepository;
 use IndexBundle\Entity\Post;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\Form\ChoiceList\Factory\DefaultChoiceListFactory;
@@ -50,6 +52,18 @@ class PostController extends Controller
         $post = new Post();
         $em = $this->getDoctrine()->getManager();
 
+        $categories = $em->createQuery("select c from IndexBundle:Category c where c.isActive = true")
+            ->getResult();
+
+        $data = array();
+
+        foreach($categories as $catego){
+            $data[] = array(
+                $catego->getName() => $catego->getId()
+            );
+        }
+
+
         $form = $this->createFormBuilder($post)
             ->add("title", TextType::class, array("label" => "Titulo"))
             ->add("shortDescription", TextType::class, array("label" => "Descripcion breve"))
@@ -57,9 +71,10 @@ class PostController extends Controller
             ->add("userId", HiddenType::class)
             ->add("bannerId", HiddenType::class)
             ->add("isActive", CheckboxType::class, array("label" => "Activo"))
-            ->add("categoryId", ChoiceType::class, array("label" => "Categoría",
-                "required" => false
-                ))
+            ->add("categoryId", ChoiceType::class, array(
+                "label" => "Categorias",
+                "choices" => $data
+            ))
             ->add("save", SubmitType::class, array("label" => "Crear"))
             ->getForm();
 
@@ -107,64 +122,6 @@ class PostController extends Controller
             ));
         }
 
-    }
-
-    /**
-     * @Route("/store", name="post.store")
-     */
-    public function storeAction(Request $request)
-    {
-        $post = new Post();
-        $em = $this->getDoctrine()->getManager();
-
-        $categories = $em
-            ->createQuery("select c from IndexBundle:Category c where c.isActive = true")
-            ->getResult();
-
-        $data = array();
-
-        foreach($categories as $category){
-            $data [] = array(
-              $category->getName() => $category->getId(),
-            );
-        }
-
-        $form = $this->createFormBuilder($post)
-            ->add("title", TextType::class, array("label" => "Titulo"))
-            ->add("shortDescription", TextType::class, array("label" => "Descripcion breve"))
-            ->add("content", TextareaType::class, array("label" => "Conten  ido"))
-            ->add("userId", HiddenType::class)
-            ->add("bannerId", HiddenType::class)
-            ->add("categoryId", ChoiceType::class, array(
-                'choices' => array(
-                    'Hombre' => 'm',
-                    'Mujer' => 'f'
-                ),
-            ))
-            ->add("save", SubmitType::class, array("label" => "Crear"))
-            ->getForm();
-
-        $form->handleRequest($request);
-
-        if($form->isSubmitted() && $form->isValid()){
-            $data = $form->getData();
-
-            $post->setTitle($data->getTitle());
-            $post->setShortDescription($data->getShortDescription());
-            $post->setContent($data->getContent());
-            $post->setCreatedAt(new \DateTime());
-            $post->setBannerId($data->getBannerId());
-            $post->setUserId($data->getUserId());
-            $post->setCategoryId($data->getCategoryId());
-
-            $em->persist($post);
-            $em->flush();
-
-            $this->addFlash("msg", "Publicacion creada con exito");
-            return $this->redirectToRoute("post.index");
-        }else{
-            return $this->redirect($request->server->get("HTTP_REFERER"));
-        }
     }
 
     /**

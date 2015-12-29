@@ -73,7 +73,6 @@ class Post
      *
      * @ORM\ManyToOne(targetEntity="Category")
      * @ORM\JoinColumn(name="category_id", referencedColumnName="id")
-     * @Assert\Type(type="integer", message="El valor es invalido")
      */
     private $categoryId;
 
