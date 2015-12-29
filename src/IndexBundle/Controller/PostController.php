@@ -85,6 +85,14 @@ class PostController extends Controller
             if($form->isSubmitted() && $form->isValid()){
                 $data = $form->getData();
 
+                if(is_null($data->getCategoryId()) ||
+                    strlen(trim($data->getCategoryId())) == 0){
+                    $this->addFlash("alert", "No se puede crear la publcación sin una"
+                        ." categoría activa");
+
+                    return $this->redirect($request->server->get("HTTP_REFERER"));
+                }
+
                 $category = $em
                         ->createQuery("select c from IndexBundle:Category c where c.id = :id")
                         ->setParameter("id", $data->getCategoryId())

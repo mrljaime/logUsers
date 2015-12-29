@@ -83,6 +83,16 @@ class CategoryController extends Controller
             ->setParameter("id", $id)
             ->getOneOrNullResult();
 
+        $post = $em
+            ->createQuery("select count(p) from IndexBundle:Post p where p.categoryId = :id")
+            ->setParameter("id", $result->getId())
+            ->getSingleScalarResult();
+
+        if($post >= 1){
+            $this->addFlash("alert", "La categoría tiene dependencias! No puedes eliminarla");
+            return $this->redirect($request->server->get("HTTP_REFERER"));
+        }
+
         if(!is_null($result)){
             $em->remove($result);
             $em->flush();
