@@ -6,18 +6,26 @@ security:
         IndexBundle\Entity\Users:
             algorithm: bcrypt
 
+        PicboardBundle\Entity\PicUsers:
+            algorithm: bcrypt
+
     providers:
         users:
             entity:
                 class: IndexBundle:Users
                 property: username
 
+        pic_users:
+            entity:
+                class: PicboardBundle:PicUsers
+                property: username
+
     firewalls:
-        login:
+        post_login:
             pattern: ^/admin/login$
             security: false
 
-        secured_area:
+        post_secured_area:
             pattern: /admin/*
             form_login:
                 check_path: /admin/dologin
@@ -27,3 +35,20 @@ security:
                 path: /admin/logout
                 target: /admin/login
             provider: users
+
+
+        pic_login:
+            pattern: ^/picboard/login$
+            security: false
+
+        pic_secured_area:
+            pattern: ^/picboard/*
+            form_login:
+                check_path: /picboard/dologin
+                login_path: /picboard/login
+                default_target_path: /picboard/index
+            logout:
+                path: /picboard/logout
+                target: /picboard/login
+            provider: pic_users
+

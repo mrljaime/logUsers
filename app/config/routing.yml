@@ -1,3 +1,8 @@
+picboard:
+    resource: "@PicboardBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 index:
     resource: "@IndexBundle/Controller/"
     type:     annotation
