@@ -3,6 +3,7 @@
 namespace IndexBundle\Controller;
 
 use Doctrine\Common\Collections\Criteria;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use IndexBundle\Entity\Post;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -34,8 +35,9 @@ class PostController extends Controller
     public function postAction()
     {
         $em = $this->getDoctrine()->getManager();
+        $user = $this->getUser();
 
-        $post = $em->getRepository("IndexBundle:Post")->findAll();
+        $post = $em->getRepository("IndexBundle:Post")->findBy(array("userId" => $user->getId()));
 
         return $this->render("IndexBundle:admin:post.html.twig", array(
             "active" => "publicaciones",
@@ -51,18 +53,7 @@ class PostController extends Controller
     {
         $post = new Post();
         $em = $this->getDoctrine()->getManager();
-
-        $categories = $em->createQuery("select c from IndexBundle:Category c where c.isActive = true")
-            ->getResult();
-
-        $data = array();
-
-        foreach($categories as $catego){
-            $data[] = array(
-                $catego->getName() => $catego->getId()
-            );
-        }
-
+        $data = $this->getCategories($em);
 
         $form = $this->createFormBuilder($post)
             ->add("title", TextType::class, array("label" => "Titulo"))
@@ -133,28 +124,113 @@ class PostController extends Controller
     }
 
     /**
-     * @Route("/viewSelected", name="viewItems")
+     * @Route("/delete/{id}", name="post.delete");
      */
-    public function holaAction()
+    public function deletePostAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
+        $result = $em->createQuery("select p from IndexBundle:Post p where p.id = :id")
+            ->setParameter("id", $id)
+            ->getOneOrNullResult();
 
-        $categories = $em->createQuery("select c from IndexBundle:Category c where c.isActive = true")
-            ->getResult();
-
-
-        $data = array();
-
-        foreach($categories as $category){
-            $data [] = array(
-                "id" => $category->getId(),
-                "name" => $category->getName(),
-            );
+        if($result){
+            $em->remove($result);
+            $em->flush();
+            $this->addFlash("msg", "La publicación ha sido eliminada con éxito");
+            return $this->redirectToRoute("post.index");
         }
 
-        return new JsonResponse($data);
     }
 
+    /**
+     * @param Request $request
+     * @param $id
+     * @Route("/edit/{id}", name="post.edit")
+     */
+    public function editPostAction(Request $request, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $post = new Post();
+        $result = $em->createQuery("select p from IndexBundle:Post p where p.id = :id")
+            ->setParameter("id", $id)
+            ->getOneOrNullResult();
+
+        if(!$result){
+            $this->addFlash("alert", "No se encontró una publicación asociada");
+            return $this->redirect($request->server->get("HTTP_REFERER"));
+        }
+
+        $data = $this->getCategories($em);
+
+        $form = $this->createFormBuilder($post)
+            ->add("title", TextType::class, array("label" => "Título",
+                "attr"=> array( "value" => $result->getTitle())))
+            ->add("shortDescription", TextType::class,
+                array("label" => "Descripcion breve", "attr" => array( "value" => $result->getShortDescription())))
+            ->add("content", TextareaType::class,
+                array("label" => "Contenido"))
+            ->add("userId", HiddenType::class, array("attr" => array("value" => $result->getUserId()->getId())))
+            ->add("bannerId", HiddenType::class, array("attr" => array("value" => $result->getBannerId()->getId())))
+            ->add("isActive", CheckboxType::class,
+                array("label" => "Activo", "required" => false, "attr" => array("value" => $result->getIsActive())))
+            ->add("categoryId", ChoiceType::class, array(
+                "label" => "Categorias",
+                "choices" => $data
+            ))
+            ->add("save", SubmitType::class, array("label" => "Guardar"))
+            ->getForm();
+
+
+        if($request->getMethod() == "POST"){
+            $form->handleRequest($request);
+
+            if($form->isSubmitted() && $form->isValid()){
+                $data = $form->getData();
+
+                $user = $em->getRepository("IndexBundle:Users")->find($data->getUserId());
+                $picture = $em->getRepository("IndexBundle:Picture")->find($data->getBannerId());
+                $category = $em->getRepository("IndexBundle:Category")->find($data->getCategoryId());
+
+
+                $result->setTitle($data->getTitle());
+                $result->setShortDescription($data->getShortDescription());
+                $result->setContent($data->getContent());
+                $result->setUserId($user);
+                $result->setBannerId($picture);
+                $result->setIsActive($this->handActiveCheck($data->getIsActive()));
+                $result->setCategoryId($category);
+
+                $em->persist($result);
+                $em->flush();
+
+                $this->addFlash("msg", "La publicación se ha editado con éxito");
+                return $this->redirectToRoute("post.index");
+
+            }else{
+                return $this->render("IndexBundle:admin:editPost.html.twig", array(
+                    "active" => "publicaciones",
+                    "form" => $form->createView(),
+                    "content" => $result->getContent(),
+                    'urlPicture' => $result->getBannerId()->getPath(),
+                ));
+            }
+        }
+
+            return $this->render("IndexBundle:admin:editPost.html.twig", array(
+                "active" => "publicaciones",
+                "form" => $form->createView(),
+                "content" => $result->getContent(),
+                'urlPicture' => $result->getBannerId()->getPath(),
+            ));
+
+
+
+    }
+
+    /**
+     * @param $input
+     * @return bool
+     */
     private function handActiveCheck($input)
     {
         if(is_null($input) || empty($input)){
@@ -164,16 +240,20 @@ class PostController extends Controller
         }
     }
 
-    /**
-     * @Route("/view")
-     */
-    public function viewAction()
+    private function getCategories(EntityManager $em)
     {
-        $em = $this->getDoctrine()->getManager();
-        $categories = $em->getRepository("IndexBundle:Category")->findAll();
+        $data = array();
 
-        return $this->render("IndexBundle::selectedItem.html.twig", array(
-            "categories" => $categories,
-        ));
+        $result = $em->createQuery("select c from IndexBundle:Category c where c.isActive = true")
+            ->getResult();
+
+        foreach($result as $category){
+            $data[] = array(
+                $category->getName() => $category->getId(),
+            );
+        }
+
+        return $data;
     }
+
 }

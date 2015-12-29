@@ -23,11 +23,6 @@ use Symfony\Component\Validator\Constraints\DateTime;
 class UserController extends Controller
 {
 
-    public function __construct()
-    {
-        Carbon::setLocale("es");
-    }
-
     /**
      * @Route("/users", name="users")
      */
