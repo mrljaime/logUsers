@@ -75,7 +75,7 @@ class UserController extends Controller
             if($form->isSubmitted() && $form->isValid()){
                 $data = $form->getData();
 
-                //Don't fucking repeat yourself!!!!!    
+                //Don't fucking repeat yourself!!!!!
                 if($this->sameAsEdit($editUser, $data) || ($this->selectUseAndEmail($em, $data->getUsername(),
                         $data->getEmail()))){
                     $editUser->setName($data->getName());

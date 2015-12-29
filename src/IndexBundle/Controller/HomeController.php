@@ -76,6 +76,8 @@ class HomeController extends Controller
                     $user->setUsername($data->getUsername());
                     $user->setEmail($data->getEmail());
                     $user->setPassword($encoder->encodePassword($user, $data->getPassword()));
+                    $user->setCreatedAt(new \DateTime());
+                    $user->setPermissions("null");
 
                     $em->persist($user);
                     $em->flush();
