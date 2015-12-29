@@ -72,6 +72,20 @@ class Users implements UserInterface, \Serializable
     private $createdAt;
 
     /**
+     * @ORM\Column(name="permissions", type="string")
+     */
+    private $permissions;
+
+    public function setPermissions($permissions)
+    {
+        $this->permissions = $permissions;
+    }
+    public function getPermissions()
+    {
+        return json_decode($this->permissions);
+    }
+
+    /**
      * @param $createAt
      */
     public function setCreatedAt($createdAt)
