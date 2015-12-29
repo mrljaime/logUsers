@@ -24,6 +24,7 @@ class AppExtension extends \Twig_Extension
 
         $diff = $now->diff($date);
 
+        $mes = $diff->m;
         $dias = $diff->d;
         $horas = $diff->h;
         $minutos = $diff->i;
@@ -53,9 +54,15 @@ class AppExtension extends \Twig_Extension
             return $diff->format("%d día");
         }
 
+        if($mes >= 1){
+            return $diff->format("+1 mes");
+        }
+
         if($dias > 1){
             return $diff->format("%d días");
         }
+
+
 
     }
 
