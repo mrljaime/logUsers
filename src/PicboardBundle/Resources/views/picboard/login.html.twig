@@ -1,6 +1,10 @@
 <html>
     <head>
         <title>Picboard - Login</title>
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.1.1/foundation.css">
         <link href='https://fonts.googleapis.com/css?family=Poiret+One' rel='stylesheet' type='text/css'>
         <link href='https://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
@@ -17,6 +21,7 @@
         -webkit-background-size: cover;
         background-size:cover;
         background-position: center center;
+        background-repeat: no-repeat;
     }
 
     .full{
@@ -39,6 +44,15 @@
     }
     .button:hover{
         background-color: deeppink;
+    }
+
+    @media(max-width: 600px){
+        .full{
+            top: 10%;
+        }
+        h5{
+            text-align: justify;
+        }
     }
 
 </style>

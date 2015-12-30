@@ -1,17 +1,119 @@
 <html>
 <head>
     <title>Picboard {% block title %}{% endblock %}</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.1.1/foundation.css">
     <link href='https://fonts.googleapis.com/css?family=Poiret+One' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="{{ asset("css/css/font-awesome.css") }}">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 </head>
 
 <body>
+<style>
+    body{
+        margin: 0;
+        padding: 0;
+        background-color: lightgray;
+    }
+    .full{
+        margin: 0;
+        padding: 0;
+        position: absolute;
+        width: 300px;
+        left: -310px;
+        height: 100%;
+        background-color: lightcoral;
+        box-shadow: 0 0 20px black;
+        transition: all .6s;
+        z-index: 9999;
+    }
+    .open{
+        left: 0;
+
+    }
+    .n-element{
+        list-style: none;
+    }
+    .n-element:first-child{
+        margin-top: 40px;
+    }
+    a{
+        color: #000;
+    }
+    #closeMenu{
+        padding: 15px;
+        float: right !important;
+    }
+    .menu{
+        padding: 10px;
+        background-color: #162c44;
+    }
+    .menu > a{
+        color: white;
+        margin-left: 10px;
+    }
+    @media(max-width: 480px){
+        .full{
+            width: 200px;
+        }
+    }
+</style>
+
+    <div class="full">
+        <a href="#" id="closeMenu"><i class="fa fa-times"></i></a>
+        <ul class="my-nav">
+            <li class="n-element"><a href="#">Inicio</a></li>
+            <li class="n-element"><a href="#">Inicio</a></li>
+            <li class="n-element"><a href="#">Inicio</a></li>
+            <li class="n-element"><a href="#">Inicio</a></li>
+            <li class="n-element"><a href="#">Inicio</a></li>
+            <li class="n-element"><a href="{{ path('pic_logout') }}">Salir</a></li>
+
+        </ul>
+    </div>
+
+
+    <div class="menu">
+        <a style="font-size: 1.5em" href="#" id="menu"><i class="fa fa-bars"></i></a>
+        <a style="font-size: 1.5em; float: right !important;" href="#"><i class="fa fa-search"></i></a>
+    </div>
 
 
 
 
+<script>
+    $(document).ready(function(){
+
+        openAndClose();
+        $("#closeMenu").click(function(){
+            close();
+        });
+
+        $(".full").mouseleave(function () {
+            close();
+        });
+
+        function openAndClose(){
+            $("#menu").click(function(e){
+                e.preventDefault();
+
+                if($(".full").hasClass("open")){
+                    $(".full").removeClass("open");
+                }else{
+                    $(".full").addClass("open");
+                }
+            });
+        }
+
+        function close(){
+            $(".full").removeClass("open");
+        }
+
+    });
+</script>
 </body>
 </html>
