@@ -63,8 +63,8 @@ class Post
     /**
      * @var int
      *
-     * @ORM\OneToOne(targetEntity="Picture")
-     * @ORM\JoinColumn(name="banner_id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="Picture", inversedBy="id")
+     * @ORM\JoinColumn(name="banner_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $bannerId;
 

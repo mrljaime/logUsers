@@ -61,7 +61,8 @@ class PostController extends Controller
             ->add("content", TextareaType::class, array("label" => "Contenido"))
             ->add("userId", HiddenType::class)
             ->add("bannerId", HiddenType::class)
-            ->add("isActive", CheckboxType::class, array("label" => "Activo"))
+            ->add("isActive", CheckboxType::class,
+                array("label" => "Activo", "required" => false))
             ->add("categoryId", ChoiceType::class, array(
                 "label" => "Categorias",
                 "choices" => $data
@@ -93,6 +94,10 @@ class PostController extends Controller
                     ->createQuery("select p from IndexBundle:Picture p where p.id = :id")
                     ->setParameter("id", $data->getBannerId())
                     ->getOneOrNullResult();
+
+                if(!$picture){
+                    $picture = $em->getRepository("IndexBundle:Picture")->find(4);
+                }
 
                 $post->setTitle($data->getTitle());
                 $post->setShortDescription($data->getShortDescription());
