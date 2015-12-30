@@ -35,6 +35,13 @@ class DefaultController extends Controller
     }
 
     /**
+     * @Route("picboard/logout", name="pic_logout")
+     */
+    public function logoutAction()
+    {
+    }
+
+    /**
      * @Route("picboard/index", name="picboard.index")
      */
     public function homeAction()
