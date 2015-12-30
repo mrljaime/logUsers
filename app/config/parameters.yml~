@@ -1,0 +1,12 @@
+# This file is auto-generated during the composer install
+parameters:
+    database_host: ec2-54-204-8-138.compute-1.amazonaws.com
+    database_port: 5432
+    database_name: df4kvsj9mckkag
+    database_user: merszqbcoyzndl
+    database_password: xnLlfFjAZHhEm6gMG5ukGuwmVK
+    mailer_transport: smtp
+    mailer_host: 127.0.0.1
+    mailer_user: null
+    mailer_password: null
+    secret: ThisTokenIsNotSoSecretChangeIt
