@@ -95,6 +95,37 @@
         border-right: solid #B89400;
     }
 
+    .hexagono {
+        width: 150px;
+        height: 90px;
+        background: #666;
+        position: relative;
+        background-image: url("{{ asset("Resources/flowersRecortada.jpg") }}");
+    }
+
+    .hexagono:before {
+        content: "";
+        position: absolute;
+        top: -50px;
+        left: 0;
+        width: 0;
+        height: 0;
+        border-left: 75px solid transparent;
+        border-right: 75px solid transparent;
+        border-bottom: 50px solid #666;
+    }
+    .hexagono:after {
+        content: "";
+        position: absolute;
+        bottom: -50px;
+        left: 0;
+        width: 0;
+        height: 0;
+        border-left: 75px solid transparent;
+        border-right: 75px solid transparent;
+        border-top: 50px solid #666;
+    }
+
     @media (max-width: 480px) {
         .openMenu a.social{
             padding-left: 2px;
@@ -130,6 +161,12 @@
     <a class="social" href="#" title="Twitter"><i class="fa fa-twitter-square"></i></a>
     </div>
 </div>
+
+    <div class="col-md-12" style="padding-top:100px">
+        <div class="col-md-3 hexagono">
+        </div>
+    </div>
+
 
 <script>
     $(document).ready(function () {
