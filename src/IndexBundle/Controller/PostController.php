@@ -97,7 +97,8 @@ class PostController extends Controller
                     ->getOneOrNullResult();
 
                 if(!$picture){
-                    $picture = $em->getRepository("IndexBundle:Picture")->find(4);
+                    $this->addFlash("alert", "No se encontró una imagen de portada");
+                    return $this->redirectToRoute("post.create");
                 }
 
                 $post->setTitle($data->getTitle());
