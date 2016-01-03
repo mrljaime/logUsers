@@ -37,7 +37,8 @@ class PostController extends Controller
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
 
-        $post = $em->getRepository("IndexBundle:Post")->findBy(array("userId" => $user->getId()));
+        $post = $em->getRepository("IndexBundle:Post")
+            ->findBy(array("userId" => $user->getId(), "section" => "blog"));
 
         return $this->render("IndexBundle:admin:post.html.twig", array(
             "active" => "publicaciones",
@@ -106,6 +107,7 @@ class PostController extends Controller
                 $post->setBannerId($picture);
                 $post->setUserId($this->getUser());
                 $post->setCategoryId($category);
+                $post->setSection("blog");
                 $post->setIsActive($this->handActiveCheck($data->getIsActive()));
 
                 $em->persist($post);
@@ -151,6 +153,7 @@ class PostController extends Controller
      * @param Request $request
      * @param $id
      * @Route("/edit/{id}", name="post.edit")
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function editPostAction(Request $request, $id)
     {

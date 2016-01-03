@@ -83,6 +83,12 @@ class Post
     private $isActive;
 
     /**
+     * @var
+     * @ORM\Column(name="section", type="string")
+     */
+    private $section;
+
+    /**
      * @param $isActive
      * @return $this
      */
@@ -277,6 +283,25 @@ class Post
     public function getCategoryId()
     {
         return $this->categoryId;
+    }
+
+    /**
+     * @param $section
+     * @return $this
+     */
+    public function setSection($section)
+    {
+        $this->section = $section;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSection()
+    {
+        return $this->section;
     }
 }
 

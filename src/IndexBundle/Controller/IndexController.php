@@ -22,6 +22,7 @@ class IndexController extends Controller
      */
     public function loginAction(Request $request)
     {
+
         $authenticationUtils = $this->get('security.authentication_utils');
 
         $error = $authenticationUtils->getLastAuthenticationError();

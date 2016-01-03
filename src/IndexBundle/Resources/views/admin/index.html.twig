@@ -30,6 +30,14 @@
                 <button type="button" class="btn btn-default"
                         onclick="location.href='{{ path('users') }}'">Usuarios</button>
             </div>
+            <div class="button col-md-3">
+                <button type="button" class="btn btn-default"
+                        onclick="location.href='{{ path("bio.index") }}'">Biografía</button>
+            </div>
+            <div class="button col-md-3">
+                <button type="button" class="btn btn-default"
+                        onclick="location.href='{{ path("principal", {"debug" : "true"}) }}'">Ver página principal</button>
+            </div>
         </div>
 
 {% endblock %}

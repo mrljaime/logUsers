@@ -121,6 +121,13 @@
                     <li class="n-sub-element"><a href="{{ path('create.category') }}">Crear categoría</a></li>
                 </ul>
             </li>
+            <li class="n-element {{ (active=="biografia")? "menu-item-active" : "" }}">
+                <a href="#">Biografia</a>
+                <ul class="sub-nav">
+                    <li class="n-sub-element"><a href="{{ path("bio.index") }}">Ver todos</a></li>
+                    <li class="n-sub-element"><a href="{{ path("bio.create") }}">Crear publicacion</a></li>
+                </ul>
+            </li>
             <li class="n-elemenst {{ (active=="redes")? "menu-item-active" : "" }}"><a href="#">Redes</a></li>
             <li class="n-element"><a href="#">{{ app.user.name }}</a>
                 <ul class="sub-nav">
@@ -132,7 +139,7 @@
 
     <div class="col-md-12 menuItem">
         <a href="#" id="menu"><span class="glyphicon glyphicon-menu-hamburger"></span></a>
-        <h2 class="pull-right">{{ app.user.name }}</h2>
+        <h2 class="pull-right">{{  app.user.name }}</h2>
     </div>
 
     <div class="col-md-12">

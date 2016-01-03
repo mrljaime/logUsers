@@ -25,7 +25,6 @@ security:
             pattern: ^/admin/login$
             security: false
 
-
         post_secured_area:
             pattern: /admin/*
             form_login:

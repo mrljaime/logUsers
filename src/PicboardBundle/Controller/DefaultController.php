@@ -46,6 +46,6 @@ class DefaultController extends Controller
      */
     public function homeAction()
     {
-        return $this->render("PicboardBundle::base.html.twig");
+        return $this->render("PicboardBundle:picboard:index.html.twig");
     }
 }

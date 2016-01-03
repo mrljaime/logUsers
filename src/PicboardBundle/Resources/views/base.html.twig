@@ -1,6 +1,6 @@
 <html>
 <head>
-    <title>Picboard {% block title %}{% endblock %}</title>
+    <title>Picboard - {% block title %}{% endblock %}</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -15,106 +15,53 @@
 
 <body>
 <style>
-    body{
-        margin: 0;
-        padding: 0;
-        background-color: lightgray;
-    }
     .full{
         margin: 0;
-        padding: 0;
-        position: absolute;
-        width: 300px;
-        left: -310px;
-        height: 100%;
-        background-color: lightcoral;
-        box-shadow: 0 0 20px black;
-        transition: all .6s;
-        z-index: 9999;
-    }
-    .open{
-        left: 0;
-
+        background-color: lightgray;
+        padding: 10px;
     }
     .n-element{
+        display: inline-block;
         list-style: none;
+        margin-right: 50px;
     }
-    .n-element:first-child{
-        margin-top: 40px;
+    .n-element:last-child{
+        float: right;
     }
-    a{
-        color: #000;
+    #item-menu{
+        color: black;
     }
-    #closeMenu{
-        padding: 15px;
-        float: right !important;
+    #item-menu:hover{
+        text-decoration: none;
     }
-    .menu{
-        padding: 10px;
-        background-color: #162c44;
+
+@media (max-width: 480px) {
+    .n-element{
+        display: block;
+        padding-top: 5px;
     }
-    .menu > a{
-        color: white;
-        margin-left: 10px;
+    .n-element:last-child{
+        float: none;
     }
-    @media(max-width: 480px){
-        .full{
-            width: 200px;
-        }
-    }
+}
+
 </style>
 
-    <div class="full">
-        <a href="#" id="closeMenu"><i class="fa fa-times"></i></a>
-        <ul class="my-nav">
-            <li class="n-element"><a href="#">Inicio</a></li>
-            <li class="n-element"><a href="#">Inicio</a></li>
-            <li class="n-element"><a href="#">Inicio</a></li>
-            <li class="n-element"><a href="#">Inicio</a></li>
-            <li class="n-element"><a href="#">Inicio</a></li>
-            <li class="n-element"><a href="{{ path('pic_logout') }}">Salir</a></li>
-
-        </ul>
+<div class="full menu">
+    <div class="the-nav">
+        <nav>
+            <ul class="my-nav">
+                <li class="n-element"><a href="#" id="item-menu">Inicio</a></li>
+                <li class="n-element"><a href="#" id="item-menu">Disponibles</a></li>
+                <li class="n-element"><a href="{{ path("theIndex") }}" id="item-menu">Subir imagenes</a></li>
+                <li class="n-element"><a href="{{ path("pic_logout") }}" id="item-menu">Salir</a></li>
+            </ul>
+        </nav>
     </div>
+</div>
 
+{% block content %}
+{% endblock %}
 
-    <div class="menu">
-        <a style="font-size: 1.5em" href="#" id="menu"><i class="fa fa-bars"></i></a>
-        <a style="font-size: 1.5em; float: right !important;" href="#"><i class="fa fa-search"></i></a>
-    </div>
-
-
-
-
-<script>
-    $(document).ready(function(){
-
-        openAndClose();
-        $("#closeMenu").click(function(){
-            close();
-        });
-
-        $(".full").mouseleave(function () {
-            close();
-        });
-
-        function openAndClose(){
-            $("#menu").click(function(e){
-                e.preventDefault();
-
-                if($(".full").hasClass("open")){
-                    $(".full").removeClass("open");
-                }else{
-                    $(".full").addClass("open");
-                }
-            });
-        }
-
-        function close(){
-            $(".full").removeClass("open");
-        }
-
-    });
-</script>
 </body>
 </html>

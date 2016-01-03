@@ -68,7 +68,6 @@
 
     </div>
 
-
 <script>
     $(document).ready(function(){
         centerLoginForm();
@@ -84,6 +83,10 @@
         $(window).resize(function(){
             centerLoginForm();
         });
+
+        {% if app.user %}
+            location.href="{{ path("home") }}"
+        {% endif %}
     });
 </script>
 
