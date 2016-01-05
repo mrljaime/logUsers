@@ -13,14 +13,12 @@ class DefaultController extends Controller
      */
     public function indexAction(Request $request)
     {
-        if($request->get("debug") == "true") {
-            $url = $request->getUriForPath("/admin/index");
-            return $this->render('IndexBundle:Default:index.html.twig',
-                array(
-                    "url" => $url,
-                ));
-        }else{
-            return $this->render('IndexBundle:Default:index.html.twig');
-        }
+        $em = $this->getDoctrine()->getManager();
+        $result = $em->createQuery("select p from IndexBundle:Post p")->getResult();
+
+        return $this->render('IndexBundle:Default:index.html.twig',
+            array(
+                'relevantes' => $result,
+            ));
     }
 }
