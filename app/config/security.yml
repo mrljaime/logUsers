@@ -25,6 +25,10 @@ security:
             pattern: ^/admin/login$
             security: false
 
+        create_user:
+            pattern: ^/admin/createUser$
+            security: false
+
         post_secured_area:
             pattern: /admin/*
             form_login:
