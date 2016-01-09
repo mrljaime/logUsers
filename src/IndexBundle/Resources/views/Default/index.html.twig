@@ -153,24 +153,19 @@
 </div>
 
 <div class="col-md-12 no-float center-block slider-container" style="padding-top:60px">
-    <div style="display: block;" class="col-md-4 slider slider-active">
-        <div style="position: relative; display: inline-block; text-align: center;" class="col-md-10 the-img">
-            <img style="background-image: url(&quot;/pictures/24b3b3f4d6839c2029c06ead11153598.jpg&quot;); background-size: cover; background-position: center center; position: relative;" class="img-responsive portrait" src="/Resources/hexagono.png" alt="">
-            <p class="title-img">Quizás unos más pequeños</p>
-        </div>
-    </div>
-    <div style="display: block;" class="col-md-4 slider slider-active">
-        <div style="position: relative; text-align: center; display: inline-block;" class="col-md-10 the-img">
-            <img style="background-image: url(&quot;/pictures/1cc9e2650f520efe4620c158814c47ef.jpg&quot;); background-size: cover; background-position: center center; position: relative;" class="img-responsive portrait" src="/Resources/hexagono.png" alt="">
-            <p class="title-img">Le cambiaré el título a este</p>
-        </div>
-    </div>
+    {% for last in relevantes %}
     <div style="display: block;" class="col-md-4 slider">
         <div style="position: relative; display: inline-block; text-align: center;" class="col-md-10 the-img">
-            <img style="background-image: url(&quot;/pictures/24b3b3f4d6839c2029c06ead11153598.jpg&quot;); background-size: cover; background-position: center center; position: relative;" class="img-responsive portrait" src="/Resources/hexagono.png" alt="">
-            <p class="title-img">Deberían ser titulos cortos</p>
+            <img style="background-image: url('{{ asset('/pictures/'~last.bannerId.path) }}');
+            background-size: cover;
+            background-position: center center;
+            position: relative;"
+            class="img-responsive portrait"
+            src="{{ asset("/Resources/hexagono.png") }}" alt="">
+            <p class="title-img">{{ last.title }}</p>
         </div>
     </div>
+    {% endfor %}
     <div class="slider-controls">
         <div class="shit">
     <span class="pull-left glyphicon glyphicon-menu-left" id="slider-left"></span>

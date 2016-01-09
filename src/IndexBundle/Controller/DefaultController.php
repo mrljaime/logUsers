@@ -14,7 +14,10 @@ class DefaultController extends Controller
     public function indexAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $result = $em->createQuery("select p from IndexBundle:Post p")->getResult();
+        $result = $em
+            ->createQuery("select p from IndexBundle:Post p order by p.createdAt desc")
+            ->setMaxResults(3)
+            ->getResult();
 
         return $this->render('IndexBundle:Default:index.html.twig',
             array(
