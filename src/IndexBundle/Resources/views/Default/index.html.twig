@@ -303,7 +303,7 @@
 
             $(".slider-container").find(".slider").each(function(index, value){
                 if($(value).hasClass("slider-active")) {
-                    $(value).fadeOut(100);
+                    $(value).hide();
                     $(value).removeClass("slider-active");
 
                     if((index+1) < sliderSize){
@@ -336,7 +336,7 @@
 
             $(".slider-container").find(".slider").each(function(index, value){
                 if($(value).hasClass("slider-active")) {
-                    $(value).fadeOut(10);
+                    $(value).hide();
                     $(value).removeClass("slider-active");
 
                     if(index == 0){
