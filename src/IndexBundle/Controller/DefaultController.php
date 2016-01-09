@@ -15,13 +15,18 @@ class DefaultController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $result = $em
-            ->createQuery("select p from IndexBundle:Post p order by p.createdAt desc")
+            ->createQuery("select p from IndexBundle:Post p where p.isActive = true order by p.createdAt desc")
             ->setMaxResults(3)
             ->getResult();
 
-        return $this->render('IndexBundle:Default:index.html.twig',
+        $posts = $em
+            ->createQuery("select p from IndexBundle:Post p where p.isActive = true order by p.createdAt desc")
+            ->getResult();
+
+        return $this->render('IndexBundle:Default:home.html.twig',
             array(
                 'relevantes' => $result,
+                'posts' => $posts,
             ));
     }
 }
