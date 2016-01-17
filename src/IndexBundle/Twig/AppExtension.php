@@ -61,9 +61,6 @@ class AppExtension extends \Twig_Extension
         if($dias > 1){
             return $diff->format("%d días");
         }
-
-
-
     }
 
     public function getName()
