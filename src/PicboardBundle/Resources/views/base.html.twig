@@ -9,59 +9,117 @@
     <link href='https://fonts.googleapis.com/css?family=Poiret+One' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="{{ asset("css/css/font-awesome.css") }}">
+    <link href='https://fonts.googleapis.com/css?family=Droid+Sans' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 </head>
 
 <body>
 <style>
-    .full{
+    *{
         margin: 0;
-        background-color: lightgray;
-        padding: 10px;
     }
-    .n-element{
-        display: inline-block;
-        list-style: none;
-        margin-right: 50px;
+    .menu{
+        position: fixed;
+        height: 100%;
+        background-color: lightgrey;
+        box-shadow: 3px 3px 5px darkgrey;
+        z-index: 100;
     }
-    .n-element:last-child{
-        float: right;
-    }
-    #item-menu{
-        color: black;
-    }
-    #item-menu:hover{
-        text-decoration: none;
-    }
-
-@media (max-width: 480px) {
-    .n-element{
-        display: block;
-        padding-top: 5px;
-    }
-    .n-element:last-child{
+    .no-float{
         float: none;
     }
-}
-
+    .sub-nav{
+        display: none;
+    }
+    .my-nav{
+        margin-top: 5vh;
+    }
+    .n-element{
+        list-style: none;
+        margin-left: -15%;
+        margin-bottom: 2vh;
+        padding: 5px;
+    }
+    .n-sub-element{
+        list-style: none;
+        margin-left: -25%;
+        padding: 5px;
+    }
+    .n-sub-element:first-child{
+        padding-top: 10px;
+    }
+    .display-menu{
+        cursor: pointer;
+    }
+    .display-menu:hover{
+        transition: all .5s;
+        -ms-transform: rotate(360deg); /* IE 9 */
+        -moz-transform: rotate(360deg);
+        -webkit-transform: rotate(360deg); /* Chrome, Safari, Opera */
+        transform: rotate(360deg);
+    }
+    li{
+        font-family: 'Droid Sans', sans-serif;
+    }
+    .username{
+        font-family: 'Lobster', cursive;
+    }
+    a:hover{
+        text-decoration: dashed;
+    }
+    .toolbar{
+        margin-top: 10px;
+        border: solid 1px white;
+    }
+    .breadcrumb{
+        -moz-box-shadow: 2px 2px 5px black;
+        box-shadow: 1px 1px 5px black;
+    }
+    @media (max-width: 480px){
+        .n-element{
+            margin-left: -10vw;
+        }
+    }
 </style>
 
-<div class="full menu">
-    <div class="the-nav">
-        <nav>
-            <ul class="my-nav">
-                <li class="n-element"><a href="#" id="item-menu">Inicio</a></li>
-                <li class="n-element"><a href="#" id="item-menu">Disponibles</a></li>
-                <li class="n-element"><a href="{{ path("theIndex") }}" id="item-menu">Subir imagenes</a></li>
-                <li class="n-element"><a href="{{ path("pic_logout") }}" id="item-menu">Salir</a></li>
+<div class="menu col-md-2 col-sm-2 col-xs-5">
+    <ul class="my-nav">
+        <li class="n-element"><a href="#">Inicio</a></li>
+        <li class="n-element"><a href="#">Mis imagenes</a> <span class="glyphicon glyphicon-menu-down pull-right display-menu"></span>
+            <ul class="sub-nav">
+                <li class="n-sub-element"><a href="#">Ver todas</a></li>
+                <li class="n-sub-element"><a href="{{ path('pic.upload.picture') }}">Subir imagen</a></li>
             </ul>
-        </nav>
-    </div>
+        </li>
+        <li class="n-element"><a href="{{ path('pic_logout') }}">Salir</a></li>
+    </ul>
 </div>
 
+<div class="toolbar col-md-10 col-md-offset-2">
+    <ol class="breadcrumb">
+        <li><a href="{{ path('picboard.index') }}">Inicio</a></li>
+        {% block breadcrumb %}
+        {% endblock %}
+        <p class="username pull-right">{{ app.user.name }}</p>
+    </ol>
+</div>
+
+
+<script>
+    $(document).ready(function(){
+        $(".display-menu").click(function () {
+            if($($(this).parent()).has($("ul.sub-nav"))){
+                $(this).parent().find("ul.sub-nav").toggle(300);
+            }
+        });
+    });
+</script>
+<div class="col-md-10 col-md-offset-2 content">
 {% block content %}
 {% endblock %}
+</div>
 
 </body>
 </html>

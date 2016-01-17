@@ -9,6 +9,7 @@
 namespace PicboardBundle\Controller;
 
 
+use PicboardBundle\Entity\ThePicture;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -33,9 +34,10 @@ class PictureController extends Controller
     /**
      * @param Request $request
      * @Route("upload", name="pic.upload.picture")
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function uploadAction(Request $request)
     {
-
+        return $this->render("PicboardBundle:picboard:uploadImage.html.twig");
     }
 }

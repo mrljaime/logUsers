@@ -1,0 +1,76 @@
+{% extends "PicboardBundle::base.html.twig" %}
+{% block title %}
+Subir Imagen
+{% endblock%}
+{% block breadcrumb %}
+<li class="active">Subir imagen</li>
+{% endblock %}
+{% block content %}
+<style>
+    .upload-image{
+        background-image: url('http://eskipaper.com/images/tumblr-flower-backgrounds-1.jpg');
+        background-position: center center;
+        background-repeat: no-repeat;
+        -webkit-background-size: cover;
+        background-size: cover;
+        border-radius: .4em;
+        box-shadow: 0 0 5px #b0b0b0;
+    }
+    .upload-image p{
+        padding: 10px;
+        background-color: rgba(0, 0, 0, 0.56);
+        color: white;
+        font-family: 'Lobster', cursive;
+        font-size: 1.5em;
+    }
+    .input{
+        background-color: rgba(0, 0, 0, 0.69);
+        color: white;
+        border: none;
+        padding: 10px;
+        border-radius: .4em;
+        transition: all .3s;
+    }
+    .input:hover{
+        box-shadow: inset 0 0 5px white;
+    }
+    .the-file{
+        visibility: hidden;
+    }
+</style>
+    <h3 class="text-center">Estas a u paso de subir una nueva imagen!</h3>
+
+    <div class="col-md-8 col-sm-10 col-xs-10 no-float center-block upload-image">
+        <p class="text-center">Puedes intentar arrastrando tu imagen. <small>Recuerda hacerlo de una en una</small></p>
+        <button type="button" id="select-file" class="input text-center center-block">Seleccionar imagen</button>
+        <input type="file" class="the-file" id="get-file">
+    </div>
+
+    <div class="">
+        <p class="name">Número de elementos a subir: <span class="nombres"></span></p>
+    </div>
+
+
+<script>
+    $(function(){
+
+        files = [];
+
+        $("#select-file").click(function(){
+            $("#get-file").click();
+        });
+
+        $(".upload-image").on("dragover drop", function(event){
+            event.stopPropagation();
+            event.preventDefault();
+
+            if(event.type == "drop"){
+                files.push(event.originalEvent.dataTransfer.files);
+
+                $(".nombres").html(files.length);
+            }
+
+        })
+    })
+</script>
+{% endblock %}
