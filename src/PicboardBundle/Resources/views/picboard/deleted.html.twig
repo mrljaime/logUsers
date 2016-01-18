@@ -1,0 +1,63 @@
+{% extends "PicboardBundle::base.html.twig" %}
+{% block title %}
+    Eliminadas
+{% endblock %}
+{% block breadcrumb %}
+    <li><a href="{{ path('pic.home') }}">Imágenes</a></li>
+    <li class="active">Eliminadas</li>
+{% endblock %}
+
+{% block content %}
+    <style>
+        .the-picture{
+            height: 300px;
+        }
+        .uploadButton{
+            border: none;
+            font-size: 1.2em;
+            background: transparent;
+            padding: 10px;
+            margin: 10px;
+            border-radius: .3em;
+            font-family: 'PT Sans Narrow', sans-serif;
+            transition: all .5s;
+        }
+        .uploadButton:hover{
+            background-color: #069;
+            color: white;
+        }
+        .delete-action{
+            display: flex;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: center;
+            opacity: 0;
+            transition: all .3s;
+        }
+    </style>
+
+    <div class="col-md-12">
+        {% for picture in pictures %}
+            <div class="col-md-4 the-picture"
+                 style="background-image: url('{{ asset('/pictures/'~picture.path) }}');
+                         background-position: center center; background-size: cover;">
+                <button style="margin-top: 45%;"
+                        class="text-center delete-action btn" type="button"
+                        onclick="location.href='{{ path('pic.delete.file', {id : picture.id}) }}'">Eliminar</button>
+            </div>
+        {% endfor %}
+    </div>
+    <script>
+        $(function(){
+            $(".the-picture").hover(function(){
+                $(this).find(".delete-action").css("opacity", "1");
+            }, function(){
+                $(this).find(".delete-action").css("opacity", "0");
+            });
+
+            $(".delete-action").click(function() {
+
+            });
+        })
+    </script>
+{% endblock %}

@@ -40,56 +40,27 @@ class PictureController extends Controller
      */
     public function uploadAction(Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
-        if($request->getMethod() == "POST"){
-            $files = $request->files;
-            if(is_null($files)){
-                throw new InvalidArgumentException("El campo no puede estar nulo");
-            }
-            foreach ($files as $file) {
-                $md5 = md5_file($file);
-                $result = $em->createQuery("select p from PicboardBundle:ThePicture p where p.md5 = :md5")
-                    ->setParameter("md5", $md5)
-                    ->getOneOrNullResult();
-
-                if (is_null($result)) {
-
-                    $ext = strtolower($file->getClientOriginalExtension());
-                    $filename = $md5 . "." . $ext;
-
-                    $file->move(__DIR__ . "/../../../web/pictures/", $filename);
-
-                    $picture = new ThePicture();
-                    $picture->setMd5($md5);
-                    $picture->setPath($filename);
-                    $em->persist($picture);
-                    $em->flush();
-
-                    $url = $request->getUriForPath("/pictures/" . $picture->getPath());
-
-                    $data = array(
-                        "status" => "success",
-                        "url" => $url,
-                        "id" => $picture->getId(),
-                    );
-
-                    return $this->redirectToRoute("pic.upload.pictures");
-                } else {
-
-                    $url = $request->getUriForPath("/pictures/" . $result->getPath());
-
-                    $data = array(
-                        "status" => "onDb",
-                        "url" => $url,
-                        "id" => $result->getId(),
-                    );
-
-                    return $this->redirectToRoute("pic.upload.pictures");
-                }
-            }
-        }
-
         return $this->render("PicboardBundle:picboard:uploadImage.html.twig");
+    }
+
+    /**
+     * @Route("home", name="pic.home")
+     */
+    public function homePicboardAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $pictures = $em->createQuery("select p from PicboardBundle:ThePicture p where p.deletedAt is null ")
+            ->getResult();
+        $data = array();
+        foreach ($pictures as $picture) {
+            $data [] = array(
+                'id' => $picture->getId(),
+                'path' => $picture->getPath(),
+            );
+        }
+        return $this->render("PicboardBundle:picboard:picboardIndex.html.twig", array(
+            'pictures' => $data,
+        ));
     }
 
     /**
@@ -108,7 +79,8 @@ class PictureController extends Controller
         if (count($files) > 0) {
             foreach ($files as $file) {
                 $md5 = md5_file($file);
-                $result = $em->createQuery("select p from PicboardBundle:ThePicture p where p.md5 = :md5")
+                $result = $em->createQuery("select p from PicboardBundle:ThePicture p where p.md5 = :md5 ".
+                    " and p.deletedAt = null")
                     ->setParameter("md5", $md5)
                     ->getOneOrNullResult();
 
@@ -141,5 +113,38 @@ class PictureController extends Controller
         throw new InvalidArgumentException("No se pueden subir imagenes si no existen");
     }
 
+    /**
+     * @Route("{id}/delete", name="pic.delete.file")
+     */
+    public function deleteFileAction(Request $request, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $picture = $em->getRepository("PicboardBundle:ThePicture")->find($id);
+        $picture->setDeletedAt(new \DateTime());
+        $em->persist($picture);
+        $em->flush();
+        $this->addFlash("msg", "La imagen se ha movido a tu carpeta de eliminados.");
 
+        return $this->redirectToRoute("pic.home");
+    }
+
+    /**
+     * @Route("deleted", name="pic.deleted")
+     */
+    public function deletedAtAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $pictures = $em->createQuery("select p from PicboardBundle:ThePicture p where p.deletedAt is not null")
+            ->getResult();
+        $data = array();
+        foreach ($pictures as $picture) {
+            $data [] = array(
+                'id' => $picture->getId(),
+                'path' => $picture->getPath(),
+            );
+        }
+        return $this->render("PicboardBundle:picboard:deleted.html.twig", array(
+            'pictures' => $data,
+        ));
+    }
 }

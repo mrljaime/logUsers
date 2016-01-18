@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="{{ asset("css/css/font-awesome.css") }}">
     <link href='https://fonts.googleapis.com/css?family=Droid+Sans' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=PT+Sans+Narrow' rel='stylesheet' type='text/css'>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 </head>
@@ -19,6 +20,9 @@
 <style>
     *{
         margin: 0;
+    }
+    .content{
+        padding-bottom: 50px;
     }
     .menu{
         position: fixed;
@@ -71,7 +75,11 @@
     }
     .toolbar{
         margin-top: 10px;
-        border: solid 1px white;
+        transition: all .3s;
+    }
+    .toolbarFixed{
+        z-index: 999;
+        position: fixed;
     }
     .breadcrumb{
         -moz-box-shadow: 2px 2px 5px black;
@@ -89,8 +97,9 @@
         <li class="n-element"><a href="#">Inicio</a></li>
         <li class="n-element"><a href="#">Mis imagenes</a> <span class="glyphicon glyphicon-menu-down pull-right display-menu"></span>
             <ul class="sub-nav">
-                <li class="n-sub-element"><a href="#">Ver todas</a></li>
+                <li class="n-sub-element"><a href="{{ path('pic.home') }}">Ver todas</a></li>
                 <li class="n-sub-element"><a href="{{ path('pic.upload.picture') }}">Subir imagen</a></li>
+                <li class="n-sub-element"><a href="{{ path('pic.deleted') }}">Eliminadas</a></li>
             </ul>
         </li>
         <li class="n-element"><a href="{{ path('pic_logout') }}">Salir</a></li>
@@ -112,6 +121,17 @@
         $(".display-menu").click(function () {
             if($($(this).parent()).has($("ul.sub-nav"))){
                 $(this).parent().find("ul.sub-nav").toggle(300);
+            }
+        });
+
+        var theHeight = $(".toolbar").offset().top;
+        console.log(theHeight);
+
+        $(window).scroll(function () {
+            if($(this).scrollTop() >= theHeight){
+                $(".toolbar").addClass("toolbarFixed");
+            }else{
+                $(".toolbar").removeClass("toolbarFixed");
             }
         });
     });

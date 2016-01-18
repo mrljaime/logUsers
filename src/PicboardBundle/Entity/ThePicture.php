@@ -42,6 +42,11 @@ class ThePicture
      */
     private $section;
 
+    /**
+     * @ORM\Column(name="deleted_at", type="datetime")
+     * @var
+     */
+    private $deletedAt;
 
     /**
      * Get id
@@ -123,6 +128,24 @@ class ThePicture
     public function getSection()
     {
         return $this->section;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDeletedAt()
+    {
+        return $this->deletedAt;
+    }
+
+    /**
+     *
+     */
+    public function setDeletedAt($deletedAt)
+    {
+        $this->deletedAt = $deletedAt;
+
+        return $this;
     }
 }
 
