@@ -1,8 +1,10 @@
+
 {% extends "PicboardBundle::base.html.twig" %}
 {% block title %}
 Subir Imagen
 {% endblock%}
 {% block breadcrumb %}
+    <li><a href="#">Imagenes</a></li>
 <li class="active">Subir imagen</li>
 {% endblock %}
 {% block content %}
@@ -34,43 +36,83 @@ Subir Imagen
     .input:hover{
         box-shadow: inset 0 0 5px white;
     }
+    .input-flat{
+        background-color: transparent;
+        color: black;
+        border: none;
+        padding: 10px;
+        border-radius: .4em;
+        transition: all .2s;
+    }
+    .input-flat:hover{
+        box-shadow: 0 0 1px black;
+    }
     .the-file{
         visibility: hidden;
     }
 </style>
     <h3 class="text-center">Estas a u paso de subir una nueva imagen!</h3>
-
     <div class="col-md-8 col-sm-10 col-xs-10 no-float center-block upload-image">
         <p class="text-center">Puedes intentar arrastrando tu imagen. <small>Recuerda hacerlo de una en una</small></p>
-        <button type="button" id="select-file" class="input text-center center-block">Seleccionar imagen</button>
         <input type="file" class="the-file" id="get-file">
     </div>
 
-    <div class="">
-        <p class="name">Número de elementos a subir: <span class="nombres"></span></p>
+    <div style="margin-top: 10px" class="col-md-10 no-float center-block text-center">
+        <p class="name">Ultimo elemento seleccionado: <strong class="nombres"></strong></p>
     </div>
+
+    <div class="col-md-4 no-float center-block text-center">
+        <button class="input-flat" type="button" id="upload-now">Subir Ahora</button>
+    </div>
+
+
 
 
 <script>
     $(function(){
 
-        files = [];
-
-        $("#select-file").click(function(){
+        var files = [];
+        $("#select-file").click(function () {
             $("#get-file").click();
         });
-
-        $(".upload-image").on("dragover drop", function(event){
+        $(".upload-image").on("dragover drop", function (event) {
             event.stopPropagation();
             event.preventDefault();
-
-            if(event.type == "drop"){
+            if (event.type == "drop") {
                 files.push(event.originalEvent.dataTransfer.files);
-
-                $(".nombres").html(files.length);
+                var count = files.length;
+                $(".nombres").html($(files)[count - 1][0].name);
             }
+        });
 
-        })
+        $("#upload-now").click(function(){
+            formData = new FormData();
+
+            $(files).each(function(index, file) {
+                formData.append(index, $(file)[0])
+            });
+
+            $.ajax({
+                url: '{{ path("pic.upload.file") }}',
+                type: 'POST',
+                data: formData,
+                processData: false,
+                cache: false,
+                contentType: false,
+                beforeSend: function(){
+                    $("#upload-now").attr("value", "Subiendo imágenes");
+                },
+                success: function(data){
+                    $("#upload-now").attr("value", "Subir ahora");
+                    $(".nombres").empty();
+                    console.log(data);
+                },
+                error: function(error){
+                    console.log(error);
+                }
+            });
+        });
+
     })
 </script>
 {% endblock %}
