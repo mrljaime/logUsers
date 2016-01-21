@@ -22,7 +22,6 @@
 
 <body>
 <style>
-@media (max-width: 1080px) {
     * {
         margin: 0;
         padding: 0;
@@ -154,6 +153,10 @@
         margin-left: auto;
         margin-right: auto;
     }
+@media (max-width: 770px) {
+    .cabecera:not(#first) {
+        display: none;
+    }
 }
 </style>
 
@@ -181,9 +184,27 @@
     </nav>
 
     <div class="header"></div>
-<div class="cabecera col-md-4">
+<div id="first" class="cabecera col-md-4 col-sm-4">
     <div class="header-center">
         <div class="circle"><h3>L</h3></div>
+    </div>
+    <div class="header-footer">
+        <h3>LIFE STYLE</h3>
+        <div class="lineSeparator"></div>
+    </div>
+</div>
+<div class="cabecera col-md-4 col-sm-4">
+    <div style="background-color: #CBFEFE" class="header-center">
+        <div style="background-color: #CBFEFE" class="circle"><h3>L</h3></div>
+    </div>
+    <div class="header-footer">
+        <h3>LIFE STYLE</h3>
+        <div class="lineSeparator"></div>
+    </div>
+</div>
+<div class="cabecera col-md-4 col-sm-4">
+    <div style="background-color: #FCFCB1" class="header-center">
+        <div style="background-color: #FCFCB1" class="circle"><h3>L</h3></div>
     </div>
     <div class="header-footer">
         <h3>LIFE STYLE</h3>
