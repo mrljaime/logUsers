@@ -16,6 +16,7 @@
     <link href='https://fonts.googleapis.com/css?family=Poiret+One' rel='stylesheet' type='text/css'>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/i18n/jquery-ui-i18n.js"></script>
 
 </head>
 
@@ -32,6 +33,15 @@
         padding-left: 10px;
         padding-right: 10px;
         border-bottom: solid black;
+        transition: all .4s;
+    }
+    .head-fixed {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        background-color: white;
+        z-index: 100;
+        box-shadow: 1px 1px 7px black;
     }
     #menu {
         font-size: 1.8em;
@@ -197,7 +207,14 @@
 
         var height = $(".head").offset().top;
         $(window).scroll(function(){
-            if(height > $())
+            if($(window).scrollTop() > $(".head").innerHeight()) {
+                console.log("Revasando el limite");
+                $(".head").addClass("head-fixed");
+                $(".the-search").hide("slide");
+            } else {
+                $(".head").removeClass("head-fixed");
+                $(".the-search").show("slide");
+            }
         });
     })
 </script>
