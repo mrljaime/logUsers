@@ -22,7 +22,7 @@
 
 <body>
 <style>
-@media (max-width: 640px) {
+@media (max-width: 1080px) {
     * {
         margin: 0;
         padding: 0;
@@ -181,6 +181,7 @@
     </nav>
 
     <div class="header"></div>
+<div class="cabecera col-md-4">
     <div class="header-center">
         <div class="circle"><h3>L</h3></div>
     </div>
@@ -188,15 +189,14 @@
         <h3>LIFE STYLE</h3>
         <div class="lineSeparator"></div>
     </div>
-
-
+</div>
 {% block content %}
 {% endblock %}
 
 <script>
     $(function(){
         $(".the-search").click(function () {
-            $(".search").slideToggle(400);
+            $(".search").slideToggle(200);
         });
         $("#menu").click(function () {
             $(".the-nav").toggleClass("open");
