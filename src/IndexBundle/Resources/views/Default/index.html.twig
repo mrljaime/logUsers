@@ -21,363 +21,185 @@
 
 <body>
 <style>
-    *{
+@media (max-width: 640px) {
+    * {
         margin: 0;
         padding: 0;
-        box-sizing: border-box;
     }
-    body{
-        display: none;
-        padding-bottom: 50px;
-    }
-    .n-element{
-        list-style: none;
+    .head {
+        padding-top: 10px;
+        padding-bottom: 3px;
         padding-left: 10px;
-        padding-bottom: 20px;
+        padding-right: 10px;
+        border-bottom: solid black;
     }
-    .n-element:first-child{
-        padding-top: 60px;
+    #menu {
+        font-size: 1.8em;
     }
-    .full{
-        width: 200px;
-        margin-left: -250px;
-        background-color: rgba(169, 123, 141, .8);
-        z-index: 9999;
-        box-shadow: 0 0 10px black;
-        transition: all .6s;
+    #social {
+        float: right !important;
+        margin-left: 10px;
+        cursor: pointer;
+        font-size: 1.8em;
+    }
+    .the-search {
+        font-size: 1em;
+    }
+    #social-media {
+        color: black;
+    }
+    #social-media:first-child {
+        margin-right: 10px;
+        font-size: 1em;
+    }
+    #menu {
+        cursor: pointer;
+    }
+    .search {
+        position: relative;
+        width: 100%;
+        margin-top: 10px;
+        border-bottom: solid black;
+        border-top: solid black;
+        padding: 3px;
+        display: none;
+    }
+    input {
+        width: 100%;
+    }
+    .the-nav {
         position: fixed;
+        top: 0;
+        width: 65%;
+        background-color: rgb(245, 245, 245);
+        box-shadow: 1px 1px 10px darkgrey;
+        margin-left: -70%;
+        transition: all .4s;
+        z-index: 999;
     }
-    .open{
+    .open {
         margin-left: 0;
     }
-    #item-menu{
-        color: white;
-    }
-    #close-menu{
-        padding: 20px;
-        font-size: 1.3em;
+    #close-menu {
+        padding: 10px;
+        flex: auto;
         float: right !important;
-        color: white;
+        cursor: pointer;
     }
-    #open-menu{
-        padding: 0px 20px 20px 20px;
-        font-size: 2em;
-        color: #B89400;
-
-    }
-    #search{
-        padding-top: 10px;
-        padding-bottom: 10px;
-        font-size: 2em;
-        color: #B89400;
-    }
-    .openMenu{
-        border-top: solid black;
-        border-bottom: solid black;
-        height: auto;
-        position: fixed;
-        width: 100%;
-        z-index: 9998;
-        background-color: white;
-    }
-    .openMenu a.social{
-        font-size: 2em;
-        color: #B89400;
-        padding: 5px;
-    }
-    .openMenu a.social:first-child{
-        margin-right: 50px;
-    }
-    .social{
-        float: right !important;
-    }
-    form{
-        display: inline-block;
-        vertical-align: middle;
-    }
-    #search-input{
-        width: 80%;
-        margin-bottom: 10px;
-    }
-    .input{
+    .my-input {
+        margin-left: 15px;
         border: none;
-        background: rgba(0, 0, 0, 0);
-        border-right: solid #B89400;
+        background-color: transparent;
     }
-    .the-img{
+    .header {
+        margin-top: 20px;
         width: 100%;
+        height: 200px;
+        background-image: url('https://secure.static.tumblr.com/b001cfd85b71700203bf5afe681512ea/yxuzc3d/NuHn37fs7/tumblr_static_tumblr_static_vuelo.jpg');
+        background-size: cover;
+        background-position: center center;
+        z-index: 1;
     }
-    .title-img{
+    .circle {
+        margin-top: -50px;
+        height: 100px;
+        width: 100px;
+        border-radius: 50%;
+        background-color: #FAC2B0;
         text-align: center;
-        border-top: solid black;
-        border-bottom: solid black;
-        width: 70%;
-        padding-top: 10px;
-        padding-bottom: 10px;
-        font-family: 'Fredoka One', cursive;
-        font-size: 1.5em;
         margin-right: auto;
         margin-left: auto;
-
-    }
-    .slider-controls{
-        display: none;
+        display: table;
         position: absolute;
-        top: 45%;
+        left: 0;
+        right: 0;
+        z-index: 2;
+        border: solid .7em white;
+    }
+    .circle h3 {
+        display: table-cell;
         vertical-align: middle;
-        width: 100%;
+        font-weight: bold;
     }
-    #slider-right{
-        margin-right: 33px;
-        cursor: pointer;
+    .header-center {
+        height: 10px;
+        background-color: #FAC2B0;
     }
-    #slider-left{
-        cursor: pointer;
+    .header-footer {
+        margin-top: 50px;
+        text-align: center;
     }
-    @media (max-width: 480px) {
-        .openMenu a.social{
-            padding-left: 2px;
-        }
+    .header-footer h3 {
+        font-weight: bold;
+        padding-bottom: 3px;
+        border-bottom: solid black;
+        width: 40%;
+        margin-right: auto;
+        margin-left: auto;
     }
+    .lineSeparator {
+        height: 50px;
+        background-color: black;
+        width: 2px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
 </style>
 
-
-<div class="full">
-    <nav class="the-nav">
-        <a href="#" id="close-menu"><i class="fa fa-chevron-left"></i></a>
-        <ul class="my-nav">
-            <li class="n-element"><a href="#" id="item-menu">Inicio</a></li>
-            <li class="n-element"><a href="#" id="item-menu">Blog</a></li>
-            <li class="n-element"><a href="#" id="item-menu">Laura</a></li>
-            <li class="n-element"><a href="#" id="item-menu">Tienda</a></li>
-        </ul>
+    <div class="head">
+        <p id="the-head">
+            <span id="menu" class="fa fa-bars"></span>
+            <span id="social" class="fa fa-search the-search"></span>
+            <a id="social-media" href="#"><span id="social" class="fa fa-instagram"></span></a>
+            <a id="social-media" href="#"><span id="social" class="fa fa-twitter-square"></span></a>
+            <a id="social-media" href="#"><span id="social" class="fa fa-facebook-square"></span></a>
+        </p>
+    </div>
+    <div class="search">
+        <form action="#">
+            <input class="my-input" type="text" name="search" id="search" placeholder="Buscar">
+        </form>
+    </div>
+    <nav>
+        <div class="the-nav">
+            <ul class="la-nav">
+                <span id="close-menu" class="fa fa-times"></span>
+                <li class="n-element"><a href="#">Inicio</a></li>
+            </ul>
+        </div>
     </nav>
-</div>
 
-<div class="openMenu">
-    <a href="#" id="open-menu"><i class="fa fa-bars"></i></a>
-    <div class="social">
-        <a class="social" href="#" title="Facebook"><i class="fa fa-facebook-square"></i></a>
-        <a class="social" href="#" title="Instagram"><i class="fa fa-instagram"></i></a>
-        <a class="social" href="#" title="Twitter"><i class="fa fa-twitter-square"></i></a>
+    <div class="header"></div>
+    <div class="header-center">
+        <div class="circle"><h3>L</h3></div>
     </div>
-</div>
-
-<div class="col-md-12 no-float center-block slider-container" style="padding-top:60px">
-    {% for last in relevantes %}
-    <div style="display: block;" class="col-md-4 slider">
-        <div style="position: relative; display: inline-block; text-align: center;" class="col-md-10 the-img">
-            <img style="background-image: url('{{ asset('/pictures/'~last.bannerId.path) }}');
-            background-size: cover;
-            background-position: center center;
-            position: relative;"
-            class="img-responsive portrait"
-            src="{{ asset("/Resources/hexagono.png") }}" alt="">
-            <p class="title-img">{{ last.title }}</p>
-        </div>
+    <div class="header-footer">
+        <h3>LIFE STYLE</h3>
+        <div class="lineSeparator"></div>
     </div>
-    {% endfor %}
-    <div class="slider-controls">
-        <div class="shit">
-    <span class="pull-left glyphicon glyphicon-menu-left" id="slider-left"></span>
-    <span class="pull-right glyphicon glyphicon-menu-right" id="slider-right"></span>
-        </div>
-    </div>
-</div>
 
 
 {% block content %}
 {% endblock %}
 
 <script>
-    $(document).ready(function () {
-
-        $("body").fadeIn(1200);
-        open = $("#open-menu");
-        close = $("#close-menu");
-        menu = $(".full");
-        search = $("#search");
-
-        searchHide();
-        makeSlider();
-
-        $("#slider-right").click(function(){
-            sliderRight();
+    $(function(){
+        $(".the-search").click(function () {
+            $(".search").slideToggle(400);
         });
-        $("#slider-left").click(function(){
-            sliderLeft();
+        $("#menu").click(function () {
+            $(".the-nav").toggleClass("open");
+        });
+        $("#close-menu").click(function () {
+            $(".the-nav").toggleClass("open");
         });
 
-
-        open.click(function (e) {
-            e.preventDefault();
-            openAndCloseMenu();
+        var height = $(".head").offset().top;
+        $(window).scroll(function(){
+            if(height > $())
         });
-
-        close.click(function (e) {
-            e.preventDefault();
-            openAndCloseMenu();
-        });
-
-        /*
-         $(window).resize(function () {
-         var ancho = widthWindow()
-
-         if(ancho < 480) {
-         console.log(ancho);
-         $("#search-input").hide(200);
-         }else{
-         console.log(ancho);
-         $("#search-input").show(200);
-         }
-         });
-         */
-
-        function widthWindow (){
-            return $(window).innerWidth();
-        }
-
-        function openAndCloseMenu(){
-
-            if(menu.hasClass("open")){
-                menu.removeClass("open");
-            }else{
-                menu.addClass("open");
-            }
-        }
-
-
-        function searchHide(){
-            var ancho = widthWindow()
-
-            if(ancho < 480) {
-                //console.log(ancho);
-                $("#search-input").hide(200);
-            }else{
-                //console.log(ancho);
-                $("#search-input").show(200);
-            }
-        }
-
-
-        function agentClickOrNot() {
-            search.click(function (e) {
-                e.preventDefault()
-
-                if ($(".social").is(":visible")) {
-                    $(".social").hide();
-                    $("#search-input").show(200);
-                } else {
-                    $(".social").show();
-                    $("#search-input").hide(200);
-                }
-            });
-        }
-
-        function makeSlider() {
-            //console.log(widthWindow());
-
-            if(widthWindow() < 965){
-                //console.log(widthWindow());
-                //$(".the-img").css("position", "absolute");
-                $(".the-img").css("text-align", "center");
-                $(".the-img").css("left", "0s");
-                $(".slider:first-child").addClass("slider-active");
-                $(".slider-controls").fadeIn();
-
-                $(".portrait").css("position", "relative");
-
-                total = $(".the-img").size();
-
-                $(".the-img").each(function(index, img){
-                    if(index >= 1){
-                        $(img).css("display", "none");
-                    }
-                });
-
-            }else{
-                $(".the-img").css("position", "relative");
-                $(".the-img").css("display", "inline-block");
-                $(".portrait").css("position", "relative");
-                $(".slider").css("display", "block")
-                $(".slider-controls").css("display", "none");
-
-            }
-        }
-
-
-        function sliderRight(){
-            sliderSize = $(".slider").size();
-            console.log(sliderSize);
-
-            $(".slider-container").find(".slider").each(function(index, value){
-                if($(value).hasClass("slider-active")) {
-                    $(value).hide();
-                    $(value).removeClass("slider-active");
-
-                    if((index+1) < sliderSize){
-                        $($(".slider-container")
-                                .find(".slider").find(".the-img").get(index+1)).fadeIn(600);
-                        $($(".slider-container")
-                                .find(".slider").get(index+1)).fadeIn(600);
-                        $($(".slider-container")
-                                .find(".slider").get(index+1)).addClass("slider-active");
-                        return false;
-                    }else{
-                        $($(".slider-container")
-                                .find(".slider").find(".the-img").get(0)).fadeIn(600);
-                        $($(".slider-container")
-                                .find(".slider").get(0)).fadeIn(600);
-                        $($(".slider-container")
-                                .find(".slider").get(0)).addClass("slider-active");
-                        return false;
-                    }
-
-                }else{
-                    console.log("No tiene clase slider-active " + index);
-                }
-            });
-        }
-
-        function sliderLeft(){
-            sliderSize = $(".slider").size();
-            console.log(sliderSize);
-
-            $(".slider-container").find(".slider").each(function(index, value){
-                if($(value).hasClass("slider-active")) {
-                    $(value).hide();
-                    $(value).removeClass("slider-active");
-
-                    if(index == 0){
-                        $($(".slider-container")
-                                .find(".slider").find(".the-img").get(sliderSize-1)).fadeIn(600);
-                        $($(".slider-container")
-                                .find(".slider").get(sliderSize-1)).fadeIn(600);
-                        $($(".slider-container")
-                                .find(".slider").get(sliderSize-1)).addClass("slider-active");
-                        return false;
-                    }else{
-                        $($(".slider-container")
-                                .find(".slider").find(".the-img").get(index-1)).fadeIn(600);
-                        $($(".slider-container")
-                                .find(".slider").get(index-1)).fadeIn(600);
-                        $($(".slider-container")
-                                .find(".slider").get(index-1)).addClass("slider-active");
-                        return false;
-                    }
-
-                }else{
-                    console.log("No tiene clase slider-active " + index);
-                }
-            });
-        }
-
-        $(window).resize(function () {
-            makeSlider();
-        });
-    });
+    })
 </script>
-
 </body>
 </html>
-
