@@ -4,6 +4,59 @@
 {% endblock %}
 {% block content %}
 <style>
-
+    .separateHeaderFromContent {
+        width: 100%;
+        height: 200px;
+    }
+    .c-article {
+        border: solid black;
+        margin-top: 45px;
+    }
+    h5#dateTime {
+        width: 70%;
+        margin-left: auto;
+        margin-right: auto;
+        border-bottom: solid black;
+        padding-bottom: 4px;
+    }
+    h4#title {
+        width: 70%;
+        margin-left: auto;
+        margin-right: auto;
+        border-bottom: solid black;
+        padding-bottom: 4px;
+    }
+    p#shortDescription {
+        width: 70%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .no-float {
+        float: none;
+    }
+    @media (max-width: 770px) {
+        .c-article {
+            border: none;
+        }
+        .separateHeaderFromContent {
+            display: none;
+        }
+    }
 </style>
+
+    <div class="separateHeaderFromContent"></div>
+
+
+{% for post in posts %}
+    <div class="c-article col-md-10 no-float center-block text-center">
+            <div class="col-md-7 no-float center-block">
+            <img style="margin-top: 10px; border-radius: .3em;" class="img-responsive no-float center-block"
+                 src="{{ asset("/pictures/"~post.bannerId.path) }}" alt="">
+            <h5 id="dateTime">{{ post.createdAt|date("d.m.Y") }}</h5>
+            <h4 id="title">{{ post.title }}</h4>
+            <p id="shortDescription">{{ post.shortDescription }}</p>
+            </div>
+    </div>
+
+{% endfor %}
 {% endblock%}
