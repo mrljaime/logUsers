@@ -3,12 +3,15 @@
 namespace IndexBundle\Controller;
 
 use IndexBundle\Entity\Category;
+use IndexBundle\Entity\SubCat;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 
 /**
  * Class CategoryController
@@ -160,6 +163,75 @@ class CategoryController extends Controller
     }
 
     /**
+     * @Route("/subCategory", name="category_sub_category")
+     */
+    public function indexSubCatAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $subCat = $em->createQuery("select sc from IndexBundle:SubCat sc")
+            ->getResult();
+
+        return $this->render("IndexBundle:admin:subCat.html.twig", array(
+            'subCategories' => $subCat,
+            'active' => "subcat",
+        ));
+    }
+
+    /**
+     * @Route("/subCategory/create", name="category_sub_category_create")
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     */
+    public function createSubCategoryAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $subCategory = new SubCat();
+        $categories = $em->createQuery("select c from IndexBundle:Category c where c.isActive = true")
+            ->getResult();
+        if(count($categories) == 0) {
+            $this->addFlash("alert", "No existe ninguna categoría o no hay ninguna activa");
+            return $this->redirectToRoute("category");
+        }
+        $cat = array();
+        foreach ($categories as $category) {
+            $data = array($category->getName() => $category->getId());
+            array_push($cat, $data);
+        }
+
+        $form = $this->createFormBuilder($subCategory)
+            ->add("name", TextType::class, array('label' => "Nombre"))
+            ->add("categoryId", ChoiceType::class, array('label' => 'Categorías', 'choices' => $cat))
+            ->add("pictureId", HiddenType::class, array('label' => 'BannerId'))
+            ->add("save", SubmitType::class, array('label' => "Guardar sub categoría"))
+            ->getForm();
+
+        if ($request->getMethod() == "POST") {
+            $form->handleRequest($request);
+            if ($form->isSubmitted() && $form->isValid()) {
+                $data = $form->getData();
+                $category = $this->getRepository($request, "Category", $data->getCategoryId());
+                $banner = $this->getRepository($request, "Picture", $this->getBannerId());
+                $subCategory->setName($data->getName());
+                $subCategory->setCategoryId($category);
+                $subCategory->setPictureId($banner);
+                $em->persist($subCategory);
+                $em->flush();
+                $this->addFlash("msg", "Sub categoría creada correctamente");
+                return $this->redirectToRoute("category_sub_category");
+            } else {
+                return $this->render("IndexBundle:admin:subCatCreate.html.twig", array(
+                    'form' => $form->createView(),
+                    'active' => 'subcat',
+                ));
+            }
+        }
+        return $this->render("IndexBundle:admin:subCatCreate.html.twig", array(
+            'form' => $form->createView(),
+            'active' => 'subcat',
+        ));
+    }
+
+    /**
      * Maneja los checkbox de los activos o visibles
      * @param $input
      * @return bool
@@ -171,5 +243,16 @@ class CategoryController extends Controller
         }else{
             return true;
         }
+    }
+
+    private function getRepository($request, $name, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $element = $em->getRepository("IndexBundle:$name")->find($id);
+        if (is_null($element)) {
+            $this->addFlash("alert", "No se encontró elemento $name");
+            return $this->redirect($request->server->get("HTTP_REFERER"));
+        }
+        return $element;
     }
 }

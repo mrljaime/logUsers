@@ -34,6 +34,13 @@
     .no-float {
         float: none;
     }
+    #linkToLanding {
+        border-top: solid black;
+        border-bottom: solid black;
+        padding: 4px;
+        color: black;
+        font-weight: bold;
+    }
     @media (max-width: 770px) {
         .c-article {
             border: none;
@@ -49,13 +56,14 @@
 
 {% for post in posts %}
     <div class="c-article col-md-10 no-float center-block text-center">
-            <div class="col-md-7 no-float center-block">
+        <div class="col-md-7 no-float center-block">
             <img style="margin-top: 10px; border-radius: .3em;" class="img-responsive no-float center-block"
                  src="{{ asset("/pictures/"~post.bannerId.path) }}" alt="">
             <h5 id="dateTime">{{ post.createdAt|date("d.m.Y") }}</h5>
             <h4 id="title">{{ post.title }}</h4>
             <p id="shortDescription">{{ post.shortDescription }}</p>
-            </div>
+        </div>
+        <p style="text-align: right;"><a href="#" id="linkToLanding" style="text-align: right;">Leer</a></p>
     </div>
 
 {% endfor %}

@@ -121,6 +121,11 @@
                     <li class="n-sub-element"><a href="{{ path('create.category') }}">Crear categoría</a></li>
                 </ul>
             </li>
+            <li class="n-element {{ (active=="subcat")? "menu-item-active" : "" }}"><a href="#">Sub Categorías</a>
+                <ul class="sub-nav">
+                    <li class="n-sub-element"><a href="{{ path('category_sub_category') }}">Ver todas</a></li>
+                </ul>
+            </li>
             <li class="n-element {{ (active=="biografia")? "menu-item-active" : "" }}">
                 <a href="#">Biografia</a>
                 <ul class="sub-nav">

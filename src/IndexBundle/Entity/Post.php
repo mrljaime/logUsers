@@ -89,12 +89,6 @@ class Post
     private $section;
 
     /**
-     * @var
-     * @ORM\Column(name="is_on_front", type="boolean")
-     */
-    private $isOnFront;
-
-    /**
      * @param $isActive
      * @return $this
      */
@@ -310,23 +304,5 @@ class Post
         return $this->section;
     }
 
-    /**
-     * @param $isOnFront
-     * @return $this
-     */
-    public function setIsOnFront($isOnFront)
-    {
-        $this->isOnFront = $isOnFront;
-
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getIsOnFront()
-    {
-        return $this->isOnFront;
-    }
 }
 
