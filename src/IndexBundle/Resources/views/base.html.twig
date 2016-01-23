@@ -105,32 +105,33 @@
             <li class="n-element {{ (active=="usuarios")? "menu-item-active" : "" }}"><a href="#">Usuarios</a>
                 <ul class="sub-nav">
                     <li class="n-sub-element"><a href="{{ path('users') }}">Ver todos</a></li>
-                    <li class="n-sub-element"><a href="{{ path('create.user') }}">Crear usuario</a></li>
+                    <li class="n-sub-element"><a href="{{ path('create.user') }}">Crear</a></li>
                 </ul>
             </li>
             <li class="n-element {{ (active=="publicaciones")? "menu-item-active" : "" }}">
                 <a href="#">Publicaciones</a>
                 <ul class="sub-nav">
                     <li class="n-sub-element"><a href="{{ path("post.index") }}">Ver todas</a></li>
-                    <li class="n-sub-element"><a href="{{ path("post.create") }}">Crear publicación</a></li>
+                    <li class="n-sub-element"><a href="{{ path("post.create") }}">Crear</a></li>
                 </ul>
             </li>
             <li class="n-element {{ (active=="categorias")? "menu-item-active" : "" }}"><a href="#">Categorias</a>
                 <ul class="sub-nav">
                     <li class="n-sub-element"><a href="{{ path("category") }}">Ver todas</a></li>
-                    <li class="n-sub-element"><a href="{{ path('create.category') }}">Crear categoría</a></li>
+                    <li class="n-sub-element"><a href="{{ path('create.category') }}">Crear</a></li>
                 </ul>
             </li>
             <li class="n-element {{ (active=="subcat")? "menu-item-active" : "" }}"><a href="#">Sub Categorías</a>
                 <ul class="sub-nav">
                     <li class="n-sub-element"><a href="{{ path('category_sub_category') }}">Ver todas</a></li>
+                    <li class="n-sub-element"><a href="{{ path('category_sub_category_create') }}">Crear</a></li>
                 </ul>
             </li>
             <li class="n-element {{ (active=="biografia")? "menu-item-active" : "" }}">
                 <a href="#">Biografia</a>
                 <ul class="sub-nav">
                     <li class="n-sub-element"><a href="{{ path("bio.index") }}">Ver todos</a></li>
-                    <li class="n-sub-element"><a href="{{ path("bio.create") }}">Crear publicacion</a></li>
+                    <li class="n-sub-element"><a href="{{ path("bio.create") }}">Crear</a></li>
                 </ul>
             </li>
             <li class="n-elemenst {{ (active=="redes")? "menu-item-active" : "" }}"><a href="#">Redes</a></li>

@@ -4,6 +4,8 @@ namespace IndexBundle\Controller;
 
 use IndexBundle\Entity\Category;
 use IndexBundle\Entity\SubCat;
+use IndexBundle\Repository\CategoryRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -192,16 +194,19 @@ class CategoryController extends Controller
             $this->addFlash("alert", "No existe ninguna categoría o no hay ninguna activa");
             return $this->redirectToRoute("category");
         }
-        $cat = array();
-        foreach ($categories as $category) {
-            $data = array($category->getName() => $category->getId());
-            array_push($cat, $data);
-        }
 
         $form = $this->createFormBuilder($subCategory)
             ->add("name", TextType::class, array('label' => "Nombre"))
-            ->add("categoryId", ChoiceType::class, array('label' => 'Categorías', 'choices' => $cat))
-            ->add("pictureId", HiddenType::class, array('label' => 'BannerId'))
+            ->add("categoryId", EntityType::class,
+                array(
+                    'label' => 'Categorías',
+                    'class' => "IndexBundle:Category",
+                    'choice_label' => "name",
+                    'query_builder' => function(CategoryRepository $cr) {
+                        return $cr->createQueryBuilder("cr")
+                            ->where("cr.isActive = true");
+                    }
+                    ))
             ->add("save", SubmitType::class, array('label' => "Guardar sub categoría"))
             ->getForm();
 
@@ -210,10 +215,8 @@ class CategoryController extends Controller
             if ($form->isSubmitted() && $form->isValid()) {
                 $data = $form->getData();
                 $category = $this->getRepository($request, "Category", $data->getCategoryId());
-                $banner = $this->getRepository($request, "Picture", $this->getBannerId());
                 $subCategory->setName($data->getName());
                 $subCategory->setCategoryId($category);
-                $subCategory->setPictureId($banner);
                 $em->persist($subCategory);
                 $em->flush();
                 $this->addFlash("msg", "Sub categoría creada correctamente");

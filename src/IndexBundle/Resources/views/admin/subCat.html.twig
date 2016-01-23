@@ -52,7 +52,6 @@ Sub Categorías
         {% for sub in subCategories %}
             <div class="col-md-4 center-block cards">
                 <div class="my-card center-block">
-                    <img src="{{ asset("pictures/"~sub.bannerId.path) }}" class="img-responsive" alt="">
                     <h2>{{ sub.name }}</h2>
                     <h4>{{ sub.categoryId.name }}</h4>
                     <button class="btn btn-primary" type="button"

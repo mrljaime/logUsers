@@ -6,6 +6,8 @@ use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use IndexBundle\Entity\Post;
+use IndexBundle\Repository\CategoryRepository;
+use IndexBundle\Repository\SubCatRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -64,9 +66,10 @@ class PostController extends Controller
             ->add("bannerId", HiddenType::class)
             ->add("isActive", CheckboxType::class,
                 array("label" => "Activo", "required" => false))
-            ->add("categoryId", ChoiceType::class, array(
+            ->add("categoryId", EntityType::class, array(
                 "label" => "Categorias",
-                "choices" => $data
+                'class' => 'IndexBundle:SubCat',
+                'choice_label' => 'name',
             ))
             ->add("save", SubmitType::class, array("label" => "Crear"))
             ->getForm();
@@ -78,8 +81,7 @@ class PostController extends Controller
             if($form->isSubmitted() && $form->isValid()){
                 $data = $form->getData();
 
-                if(is_null($data->getCategoryId()) ||
-                    strlen(trim($data->getCategoryId())) == 0){
+                if(is_null($data->getCategoryId())){
                     $this->addFlash("alert", "No se puede crear la publcación sin una"
                         ." categoría activa");
 
@@ -87,7 +89,7 @@ class PostController extends Controller
                 }
 
                 $category = $em
-                        ->createQuery("select c from IndexBundle:Category c where c.id = :id")
+                        ->createQuery("select c from IndexBundle:SubCat c where c.id = :id")
                         ->setParameter("id", $data->getCategoryId())
                         ->getOneOrNullResult();
 

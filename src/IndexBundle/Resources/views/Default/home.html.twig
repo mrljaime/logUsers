@@ -59,7 +59,7 @@
         <div class="col-md-7 no-float center-block">
             <img style="margin-top: 10px; border-radius: .3em;" class="img-responsive no-float center-block"
                  src="{{ asset("/pictures/"~post.bannerId.path) }}" alt="">
-            <h5 id="dateTime">{{ post.createdAt|date("d.m.Y") }}</h5>
+            <h5 id="dateTime">{{ post.createdAt|date("d.m.Y") }}  {{ post.categoryId.name }}</h5>
             <h4 id="title">{{ post.title }}</h4>
             <p id="shortDescription">{{ post.shortDescription }}</p>
         </div>

@@ -38,13 +38,6 @@ class SubCat
      */
     private $categoryId;
 
-    /**
-     * @var int
-     *
-     * @ORM\ManyToMany(targetEntity="Picture")
-     * @ORM\JoinColumn(name="picture_id", referencedColumnName="id")
-     */
-    private $pictureId;
 
 
     /**
@@ -103,30 +96,6 @@ class SubCat
     public function getCategoryId()
     {
         return $this->categoryId;
-    }
-
-    /**
-     * Set pictureId
-     *
-     * @param integer $pictureId
-     *
-     * @return SubCat
-     */
-    public function setPictureId($pictureId)
-    {
-        $this->pictureId = $pictureId;
-
-        return $this;
-    }
-
-    /**
-     * Get pictureId
-     *
-     * @return int
-     */
-    public function getPictureId()
-    {
-        return $this->pictureId;
     }
 }
 

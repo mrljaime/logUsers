@@ -71,7 +71,7 @@ class Post
     /**
      * @var int
      *
-     * @ORM\ManyToOne(targetEntity="Category")
+     * @ORM\ManyToOne(targetEntity="SubCat")
      * @ORM\JoinColumn(name="category_id", referencedColumnName="id")
      */
     private $categoryId;
