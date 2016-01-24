@@ -2,6 +2,7 @@
 
 namespace IndexBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -23,16 +24,14 @@ class Slider
 
     /**
      * @var int
-     *
-     * @ORM\ManyToMany(targetEntity="Post")
+     * @ORM\ManyToOne(targetEntity="Post")
      * @ORM\JoinColumn(name="post_id", referencedColumnName="id")
      */
     private $postId;
 
     /**
      * @var int
-     *
-     * @ORM\OneToOne(targetEntity="Picture")
+     * @ORM\ManyToOne(targetEntity="Picture")
      * @ORM\JoinColumn(name="picture_id", referencedColumnName="id")
      */
     private $pictureId;
@@ -44,6 +43,12 @@ class Slider
      */
     private $createdAt;
 
+
+    public function __construct()
+    {
+        $this->pictureId = new ArrayCollection();
+        $this->postId = new ArrayCollection();
+    }
 
     /**
      * Get id
