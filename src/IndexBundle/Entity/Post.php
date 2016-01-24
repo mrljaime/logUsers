@@ -84,9 +84,15 @@ class Post
 
     /**
      * @var
-     * @ORM\Column(name="section", type="string")
+     * @ORM\Column(name="section", type="string", nullable=true)
      */
-    private $section;
+    private $section = null;
+
+    /**
+     * @var int
+     * @ORM\Column(name="views", type="integer")
+     */
+    private $views = 0;
 
     /**
      * @param $isActive
@@ -302,6 +308,25 @@ class Post
     public function getSection()
     {
         return $this->section;
+    }
+
+    /**
+     * @param $view
+     * @return $this
+     */
+    public function setView($view)
+    {
+        $this->views = $view;
+
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getView()
+    {
+        return $this->views;
     }
 
 }

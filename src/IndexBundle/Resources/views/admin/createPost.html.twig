@@ -11,9 +11,38 @@
     .margin-top-15{
         margin-top: 15px;
     }
+    .uploadForSlider {
+        width: 100%;
+        height: 150px;
+        background-image: url("{{ asset('/Resources/flowersRecortada.jpg') }}");
+        background-size: cover;
+        background-position: center center;
+        background-repeat: no-repeat;
+        border-radius: .7em;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        display: table;
+    }
+    #uploadFileText {
+        width: 80%;
+        display: table-cell;
+        vertical-align: middle;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    #uploadFileText p {
+        background-color: rgba(0, 0, 0, 0.62);
+        color: white;
+        width: 80%;
+        margin-left: auto;
+        margin-right: auto;
+        padding: 10px;
+        border-radius: .6em;
+    }
 </style>
     <div class="container">
-        <div class="col-md-5 no-float center-block margin-top-15">
+        <div class="col-md-6 margin-top-15">
             {{ form_start(form, {"method" : "POST"}) }}
             {{ form_label(form.title) }}
             {{ form_widget(form.title, {"attr" : {"class" : "form-control"}}) }}
@@ -24,6 +53,9 @@
             {{ form_label(form.content) }}
             {{ form_widget(form.content, {"attr" : {"class" : "form-control", "rows" : 10}}) }}
             {{ form_errors(form.content) }}
+            <script>
+                CKEDITOR.replace("form_content");
+            </script>
             {{ form_widget(form.userId, {"attr" : {"value" : app.user.id}}) }}
             {{ form_widget(form.bannerId) }}
             {{ form_label(form.categoryId) }}
@@ -38,6 +70,14 @@
             {{ form_end(form) }}
             <img src="" alt="" id="picture" class="img-responsive no-float center-block">
         </div>
+
+        <div class="col-md-6 margin-top-15">
+            <div class="uploadForSlider text-center">
+                <div id="uploadFileText">
+                    <p>Arrastra aqui las imagenes que usaras en el slider</p>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div class="col-md-5 no-float center-block">
@@ -49,8 +89,6 @@
             </div>
         {% endfor %}
     </div>
-
-
 
 
 <script>
@@ -87,6 +125,17 @@
                     }
                 });
             }
+        });
+
+        var slider = $(".uploadForSlider");
+        $(slider).on("dragover drop", function (e) {
+            e.stopPropagation();
+            e.preventDefault();
+            var data = [];
+            if (e.type == "drop") {
+                console.log("Le hiciste un Drop");
+            }
+
         });
     });
 </script>
