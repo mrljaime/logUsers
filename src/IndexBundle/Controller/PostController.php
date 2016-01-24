@@ -219,6 +219,7 @@ class PostController extends Controller
 
             }else{
                 return $this->render("IndexBundle:admin:editPost.html.twig", array(
+                    'postId' => $result->getId(),
                     "active" => "publicaciones",
                     "form" => $form->createView(),
                     "content" => $result->getContent(),
@@ -228,6 +229,7 @@ class PostController extends Controller
         }
 
             return $this->render("IndexBundle:admin:editPost.html.twig", array(
+                'postId' => $result->getId(),
                 "active" => "publicaciones",
                 "form" => $form->createView(),
                 "content" => $result->getContent(),

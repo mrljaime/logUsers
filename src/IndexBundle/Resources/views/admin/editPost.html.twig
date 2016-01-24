@@ -29,7 +29,7 @@
 
 <div class="container">
 
-    <div class="col-md-7 col-xs-8 no-float center-block form margin-top-15">
+    <div class="col-md-6 form margin-top-15">
         {{ form_start(form, {"method" : "POST"}) }}
         {{ form_label(form.title) }}
         {{ form_widget(form.title, {"attr" : {"class" : "form-control"}}) }}
@@ -54,12 +54,19 @@
         {{ form_end(form) }}
         <img src="{{ asset("pictures/"~urlPicture) }}" alt="" id="picture" class="img-responsive no-float center-block">
     </div>
+
+    <div class="col-md-6 uploadFile margin-top-15">
+        <form action="#">
+            <input type="file" name="file" id="sliderUpload" class="form-control">
+            <ul id="fileName" class="margin-top-15"></ul>
+            <button type="reset" id="reset" class="btn btn-primary">Limpiar</button>
+            <button type="button" id="fileSliderUpload" class="btn btn-primary">Subir</button>
+        </form>
+        <ul id="fileName"></ul>
+    </div>
+    <p id="error"></p>
+
 </div>
-
-
-
-
-
 
 <script>
     $(document).ready(function(){
@@ -97,6 +104,50 @@
                     }
                 });
             }
+        });
+
+        files = [];
+        var sliderUpload = new FormData();
+        sliderUpload.append("postId", "{{ postId }}")
+        $("#sliderUpload").on("change", function(){
+            file = $("#sliderUpload")[0].files[0];
+            var extFile = file.name.substr(file.name.lastIndexOf(".")+1);
+            console.log(extFile);
+            if (extFile == "jpg" || extFile == "jpeg" || extFile == "png" || extFile == "gif") {
+                $("#error").empty();
+                files.push(file);
+                $("#fileName").append("<li>" + file.name +"</li>");
+            }else {
+                $("#error").html("Recuerda que solo puedes seleccionar imagenes");
+                return false;
+            }
+        });
+
+        $("#reset").click(function(){
+            $("#fileName").empty();
+        });
+
+        $("#fileSliderUpload").click(function(e){
+            e.preventDefault();
+            $(files).each(function(index, item){
+                sliderUpload.append(index, item);
+            });
+
+            $.ajax({
+                url: '{{ path('picture_slider_create') }}',
+                type: "POST",
+                data : sliderUpload,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success : function(data) {
+                    console.log(data)
+                },
+                error : function(error) {
+                    console.log(error);
+                }
+
+            });
         });
     });
 </script>

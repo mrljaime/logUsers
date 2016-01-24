@@ -42,7 +42,7 @@
     }
 </style>
     <div class="container">
-        <div class="col-md-6 margin-top-15">
+        <div class="col-md-8 no-float center-block margin-top-15">
             {{ form_start(form, {"method" : "POST"}) }}
             {{ form_label(form.title) }}
             {{ form_widget(form.title, {"attr" : {"class" : "form-control"}}) }}
@@ -71,13 +71,6 @@
             <img src="" alt="" id="picture" class="img-responsive no-float center-block">
         </div>
 
-        <div class="col-md-6 margin-top-15">
-            <div class="uploadForSlider text-center">
-                <div id="uploadFileText">
-                    <p>Arrastra aqui las imagenes que usaras en el slider</p>
-                </div>
-            </div>
-        </div>
     </div>
 
     <div class="col-md-5 no-float center-block">
@@ -125,17 +118,6 @@
                     }
                 });
             }
-        });
-
-        var slider = $(".uploadForSlider");
-        $(slider).on("dragover drop", function (e) {
-            e.stopPropagation();
-            e.preventDefault();
-            var data = [];
-            if (e.type == "drop") {
-                console.log("Le hiciste un Drop");
-            }
-
         });
     });
 </script>

@@ -25,7 +25,7 @@ class Slider
      * @var int
      *
      * @ORM\ManyToMany(targetEntity="Post")
-     * @ORM\JoinColumn(name="post_id", referencedColumnName="id", onDelete="CASCADE")
+     * @ORM\JoinColumn(name="post_id", referencedColumnName="id")
      */
     private $postId;
 
