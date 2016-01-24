@@ -130,6 +130,26 @@ class PictureController extends Controller
         return new JsonResponse($result);
     }
 
+    /**
+     * @Route("/slider/{id}/delete", name="picture_slide_delete")
+     * @param Request $request
+     * @param $id
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function deleteSliderAction(Request $request, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $slide = $em->createQuery("select s from IndexBundle:Slider s where s.id=:id")
+            ->setParameter("id", $id)
+            ->getOneOrNullResult();
+        if (!is_null($slide)) {
+            $em->remove($slide);
+            $em->flush();
+            return $this->redirect($request->server->get("HTTP_REFERER"));
+        }
+        return $this->redirect($request->server->get("HTTP_REFERER"));
+    }
+
     private function persistAndFlushSlider(Picture $picture, Post $post)
     {
         $em = $this->getDoctrine()->getManager();

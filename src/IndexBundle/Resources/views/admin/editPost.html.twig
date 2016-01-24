@@ -63,6 +63,20 @@
             <button type="button" id="fileSliderUpload" class="btn btn-primary">Subir</button>
         </form>
         <ul id="fileName"></ul>
+
+        <div class="the-images-slider">
+
+        </div>
+        <div class="the-images-slider-back">
+            {% for slide in slider %}
+                <img class="img-responsive" src="{{ asset('/pictures/'~slide.pictureId.path) }}" alt="">
+                <button
+                        onclick="location.href='{{ path('picture_slide_delete', {id : slide.id}) }}'">
+                    Eliminar</button>
+            {% endfor %}
+        </div>
+
+
     </div>
     <p id="error"></p>
 
@@ -108,7 +122,7 @@
 
         files = [];
         var sliderUpload = new FormData();
-        sliderUpload.append("postId", "{{ postId }}")
+        sliderUpload.append("postId", "{{ post.id }}")
         $("#sliderUpload").on("change", function(){
             file = $("#sliderUpload")[0].files[0];
             var extFile = file.name.substr(file.name.lastIndexOf(".")+1);
@@ -125,6 +139,7 @@
 
         $("#reset").click(function(){
             $("#fileName").empty();
+            files.length = 0;
         });
 
         $("#fileSliderUpload").click(function(e){
@@ -141,7 +156,12 @@
                 contentType: false,
                 processData: false,
                 success : function(data) {
-                    console.log(data)
+                    $(".the-images-slider").empty();
+                    $.each(data, function(index, value){
+                        $(".the-images-slider").append(
+                                "<img class='img-responsive' src='" + value.url + "'/>"
+                        );
+                    })
                 },
                 error : function(error) {
                     console.log(error);

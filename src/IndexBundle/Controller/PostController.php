@@ -170,8 +170,9 @@ class PostController extends Controller
             $this->addFlash("alert", "No se encontró una publicación asociada");
             return $this->redirect($request->server->get("HTTP_REFERER"));
         }
-
-        $data = $this->getCategories($em);
+        $slider = $em->createQuery("select s from IndexBundle:Slider s where s.postId=:id")
+            ->setParameter("id", $id)
+            ->getResult();
 
         $form = $this->createFormBuilder($post)
             ->add("title", TextType::class, array("label" => "Título",
@@ -184,9 +185,10 @@ class PostController extends Controller
             ->add("bannerId", HiddenType::class, array("attr" => array("value" => $result->getBannerId()->getId())))
             ->add("isActive", CheckboxType::class,
                 array("label" => "Activo", "required" => false, "attr" => array("value" => $result->getIsActive())))
-            ->add("categoryId", ChoiceType::class, array(
+            ->add("categoryId", EntityType::class, array(
                 "label" => "Categorias",
-                "choices" => $data
+                'class' => 'IndexBundle:SubCat',
+                'choice_label' => 'name',
             ))
             ->add("save", SubmitType::class, array("label" => "Guardar"))
             ->getForm();
@@ -219,7 +221,8 @@ class PostController extends Controller
 
             }else{
                 return $this->render("IndexBundle:admin:editPost.html.twig", array(
-                    'postId' => $result->getId(),
+                    'post' => $result,
+                    'slider' => $slider,
                     "active" => "publicaciones",
                     "form" => $form->createView(),
                     "content" => $result->getContent(),
@@ -229,7 +232,8 @@ class PostController extends Controller
         }
 
             return $this->render("IndexBundle:admin:editPost.html.twig", array(
-                'postId' => $result->getId(),
+                'post' => $result,
+                'slider' => $slider,
                 "active" => "publicaciones",
                 "form" => $form->createView(),
                 "content" => $result->getContent(),
