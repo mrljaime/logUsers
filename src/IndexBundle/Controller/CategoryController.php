@@ -235,6 +235,35 @@ class CategoryController extends Controller
     }
 
     /**
+     * @Route("/subCategory/{id}/delete", name="category_sub_delete")
+     * @param Request $request
+     * @param $id
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function deleteSubCatAction(Request $request, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $subCat = $em->getRepository("IndexBundle:SubCat")->find($id);
+        $posts = $em->createQuery("select count(p) from IndexBundle:Post p where p.categoryId = :id")
+            ->setParameter("id", $subCat)
+            ->getScalarResult();
+        if (count($posts) > 0) {
+            $this->addFlash("alert", "No puedes eliminar una sub categoria que tiene publicaciones");
+            return $this->redirectToRoute("category_sub_category");
+        }
+
+
+        if ($subCat) {
+            $em->remove($subCat);
+            $em->flush();
+            $this->addFlash("msg", "Sub categoría eliminada correctamente");
+            return $this->redirectToRoute("category_sub_category");
+        }
+        $this->addFlash("alert", sprintf("No se encontró categoría asociada a id %s", $id));
+        return $this->redirectToRoute("category_sub_category");
+    }
+
+    /**
      * Maneja los checkbox de los activos o visibles
      * @param $input
      * @return bool
