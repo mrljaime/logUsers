@@ -189,6 +189,7 @@ class PostController extends Controller
                 "label" => "Categorias",
                 'class' => 'IndexBundle:SubCat',
                 'choice_label' => 'name',
+                'data' => $result->getCategoryId(),
             ))
             ->add("save", SubmitType::class, array("label" => "Guardar"))
             ->getForm();
