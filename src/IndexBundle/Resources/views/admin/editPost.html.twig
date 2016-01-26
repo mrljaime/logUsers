@@ -40,6 +40,9 @@
         {{ form_label(form.content) }}
         {{ form_widget(form.content, {"attr" : {"class" : "form-control", "rows" : 10}}) }}
         <div class="errors">{{ form_errors(form.content) }}</div>
+        <script>
+            CKEDITOR.replace("form_content");
+        </script>
         {{ form_widget(form.isActive) }} Activo
         <div class="errors">{{ form_errors(form.isActive) }}</div>
         {{ form_label(form.categoryId) }}
