@@ -2,6 +2,7 @@
 
 namespace IndexBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -43,7 +44,25 @@ class Category
      * @ORM\Column(name="is_active", type="boolean")
      */
     private $isActive;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="SubCat", mappedBy="categoryId")
+     * @var $subCat
+     */
+    private $subCat;
 
+    
+    public function __construct()
+    {
+    	$this->subCat = new ArrayCollection();
+    }
+    /**
+     * @return unknown
+     */
+    public function getSubCat()
+    {
+    	return $this->subCat;
+    }
 
     /**
      * Get id

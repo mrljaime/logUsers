@@ -33,7 +33,7 @@ class SubCat
     /**
      * @var int
      *
-     * @ORM\ManyToOne(targetEntity="Category")
+     * @ORM\ManyToOne(targetEntity="Category", inversedBy="subCat")
      * @ORM\JoinColumn(name="cateogy_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $categoryId;
