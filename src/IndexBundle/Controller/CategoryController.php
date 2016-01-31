@@ -244,14 +244,13 @@ class CategoryController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $subCat = $em->getRepository("IndexBundle:SubCat")->find($id);
-        $posts = $em->createQuery("select count(p) from IndexBundle:Post p where p.categoryId = :id")
+        $posts = $em->createQuery("select p from IndexBundle:Post p where p.categoryId = :id")
             ->setParameter("id", $subCat)
-            ->getScalarResult();
+            ->getResult();
         if (count($posts) > 0) {
             $this->addFlash("alert", "No puedes eliminar una sub categoria que tiene publicaciones");
             return $this->redirectToRoute("category_sub_category");
         }
-
 
         if ($subCat) {
             $em->remove($subCat);
@@ -261,6 +260,68 @@ class CategoryController extends Controller
         }
         $this->addFlash("alert", sprintf("No se encontró categoría asociada a id %s", $id));
         return $this->redirectToRoute("category_sub_category");
+    }
+
+    /**
+     * @Route("/subCategory/{id}/edit", name="category_sub_category_edit")
+     * @param Request $request
+     * @param $id
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     */
+    public function editSubCategoryAction(Request $request, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $category = $em->createQuery("select c from IndexBundle:SubCat c where c.id = $id")
+            ->getOneOrNullResult();
+        if (is_null($category)) {
+            $this->addFlash("alert", "No se ha encontrado una categoría con el id $id");
+            return $this->redirectToRoute("category_sub_category");
+        }
+        $form = $this->createFormBuilder($category)
+            ->add("name", TextType::class, array(
+                'label' => "Nombre",
+                'attr' => array(
+                    'value' => $category->getName(),
+                ),
+            ))
+            ->add("categoryId", EntityType::class, array(
+                'label' => "Categoría",
+                'class' => "IndexBundle:Category",
+                'choice_label' => 'name',
+                'data' => $category->getCategoryId(),
+                'query_builder' => function(CategoryRepository $em) {
+                    return $em->createQueryBuilder("c")
+                        ->where("c.isActive = true");
+                }
+            ))
+            ->add("save", SubmitType::class, array(
+                'label' => "Guardar cambios",
+            ))
+            ->getForm();
+
+        if ($request->getMethod() == "POST") {
+            $form->handleRequest($request);
+            if ($form->isSubmitted() && $form->isValid()) {
+                $data = $form->getData();
+                $cat = $this->getRepository($request, "Category", $data->getCategoryId());
+                $category->setName($data->getName());
+                $category->setCategoryId($cat);
+                $em->persist($category);
+                $em->flush();
+                $this->addFlash("msg", "La sub categoria se ha editado con exito.");
+                return $this->redirectToRoute("category_sub_category");
+            }
+
+            return $this->render("IndexBundle:admin:subCatEdit.html.twig", array(
+                'active' => 'subcat',
+                'form' => $form->createView(),
+            ));
+        }
+
+        return $this->render("IndexBundle:admin:subCatEdit.html.twig", array(
+            'active' => 'subcat',
+            'form' => $form->createView(),
+        ));
     }
 
     /**

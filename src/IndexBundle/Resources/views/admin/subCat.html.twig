@@ -56,7 +56,7 @@ Sub Categorías
                     <h4>{{ sub.categoryId.name }}</h4>
                     <button class="btn btn-primary" type="button"
                             onclick=
-                            "location.href=''">
+                            "location.href='{{ path('category_sub_category_edit', {id : sub.id}) }}'">
                         Editar</button>
                     <button class="btn btn-danger" type="button"
                             onclick=
