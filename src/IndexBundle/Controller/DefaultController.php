@@ -18,11 +18,14 @@ class DefaultController extends Controller
             ->createQuery("select p from IndexBundle:Post p where p.isActive = true order by p.createdAt desc")
             ->setMaxResults(5)
             ->getResult();
+        $categories = $em->createQuery("select c from IndexBundle:Category c where c.isActive = true")
+        	->getResult();
 
         return $this->render('IndexBundle:Default:home.html.twig',
             array(
                 'relevantes' => $result,
                 'posts' => $result,
+            	'categories' => $categories,
             ));
     }
 }

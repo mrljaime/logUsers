@@ -3,7 +3,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Espacio Creativos - {% block title %}{% endblock %}</title>
+    <title>{% block title %}{% endblock %} - Mentita</title>
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
       integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
@@ -97,6 +97,14 @@
         flex: auto;
         float: right !important;
         cursor: pointer;
+        -webkit-transition: all .4s;
+        -moz-transition: all .4s;
+        -ms-transition: all .4s;
+        -o-transition: all .4s;
+        transition: all .4s;
+    }
+    #close-menu:hover {
+        transform: rotate(360deg);
     }
     .my-input {
         margin-left: 15px;
@@ -164,23 +172,21 @@
     .cabecera {
         display: block;
     }
-    .foot-element {
-        background-color: black;
-        color: white;
-        padding-top: 10px;
-        padding-bottom: 5px;
-        font-size: 1.5em;
-        font-weight: bold;
-    }
-    .foot {
-        width: 100%;
-        padding-top: 10px;
-        padding-bottom: 10px;
-        border-bottom: solid black;
-        border-top: solid black;
-    }
     .separatorBottom {
         padding-bottom: 30px;
+    }
+    .sub-nav {
+        display: none;
+    }
+    .n-element {
+        list-style: none;
+        margin-left: 15px;
+        padding-top: 10px;
+    }
+    .sub-n-element {
+        list-style: none;
+        margin-top: 5px;
+        margin-left: 10px;
     }
 @media (max-width: 770px) {
     .cabecera:not(#first) {
@@ -211,38 +217,19 @@
             <ul class="la-nav">
                 <span id="close-menu" class="fa fa-times"></span>
                 <li class="n-element"><a href="#">Inicio</a></li>
+                {% for category in categories %}
+                <li class="n-element"><a href="#"><span>+</span> {{ category.name }}</a>
+                	<ul class="sub-nav">
+                	{% for subCategory in category.subCat %}
+                		<li class="sub-n-element"><a href="#">{{ subCategory.name }}</a></li>
+                	{% endfor %}
+                	</ul>
+                </li>
+                {% endfor %}
             </ul>
         </div>
     </nav>
 
-    <div class="header"></div>
-<div id="first" class="cabecera col-md-4 col-sm-4">
-    <div class="header-center">
-        <div class="circle"><h3>L</h3></div>
-    </div>
-    <div class="header-footer">
-        <h3>LIFE STYLE</h3>
-        <div class="lineSeparator"></div>
-    </div>
-</div>
-<div class="cabecera col-md-4 col-sm-4">
-    <div style="background-color: #CBFEFE" class="header-center">
-        <div style="background-color: #CBFEFE" class="circle"><h3>L</h3></div>
-    </div>
-    <div class="header-footer">
-        <h3>LIFE STYLE</h3>
-        <div class="lineSeparator"></div>
-    </div>
-</div>
-<div class="cabecera col-md-4 col-sm-4">
-    <div style="background-color: #FCFCB1" class="header-center">
-        <div style="background-color: #FCFCB1" class="circle"><h3>L</h3></div>
-    </div>
-    <div class="header-footer">
-        <h3>LIFE STYLE</h3>
-        <div class="lineSeparator"></div>
-    </div>
-</div>
 {% block content %}
 {% endblock %}
 
@@ -268,6 +255,12 @@
                 $(".head").removeClass("head-fixed");
                 $(".the-search").show("slide");
             }
+        });
+
+        $(".n-element:has(ul.sub-nav)").click(function (e) {
+            e.preventDefault();
+            $(this).find("ul.sub-nav").slideToggle();
+            $(this).find("a").find("span").toggle(300);
         });
     })
 </script>
