@@ -99,7 +99,7 @@
             <h4 id="title">{{ post.title }}</h4>
             <p id="shortDescription">{{ post.shortDescription }}</p>
         </div>
-        <p style="text-align: right;"><a href="#" id="linkToLanding" style="text-align: right;">Leer</a></p>
+        <p style="text-align: right;"><a href="{{ path('post_view', {id : post.id}) }}" id="linkToLanding" style="text-align: right;">Leer</a></p>
     </div>
 
 {% endfor %}

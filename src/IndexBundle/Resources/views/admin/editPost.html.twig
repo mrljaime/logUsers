@@ -72,9 +72,10 @@
         </div>
         <div class="the-images-slider-back">
             {% for slide in slider %}
-                <img class="img-responsive" src="{{ asset('/pictures/'~slide.pictureId.path) }}" alt="">
+                <img class="img-responsive margin-top-10" src="{{ asset('/pictures/'~slide.pictureId.path) }}" alt="">
                 <button
-                        onclick="location.href='{{ path('picture_slide_delete', {id : slide.id}) }}'">
+                        onclick="location.href='{{ path('picture_slide_delete', {id : slide.id}) }}'"
+                class="btn btn-primary margin-top-10">
                     Eliminar</button>
             {% endfor %}
         </div>
@@ -151,6 +152,8 @@
                 sliderUpload.append(index, item);
             });
 
+        deleteSlider = '{{ path('picture_slide_delete', {'id' : '__ID__'}) }}';
+
             $.ajax({
                 url: '{{ path('picture_slider_create') }}',
                 type: "POST",
@@ -162,7 +165,7 @@
                     $(".the-images-slider").empty();
                     $.each(data, function(index, value){
                         $(".the-images-slider").append(
-                                "<img class='img-responsive' src='" + value.url + "'/>"
+                                "<img class='img-responsive margin-top-10' src='" + value.url + "'/>"
                         );
                     })
                 },

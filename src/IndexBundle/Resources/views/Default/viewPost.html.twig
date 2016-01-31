@@ -1,0 +1,96 @@
+{% extends "IndexBundle:Default:index.html.twig" %}
+{% block title %}
+    {{ post.title }}
+{% endblock %}
+{% block content %}
+<style>
+    .the-image {
+        height: 350px;
+        border-radius: .4em;
+        border: solid 1px black;
+    }
+    .no-float {
+        float: none;
+    }
+    .margin-top-15 {
+        margin-top: 15px;
+    }
+    .margin-top-35 {
+        margin-top: 35px;
+    }
+    .slider {
+        position: relative;
+    }
+    .slide {
+        display: none;
+    }
+    .slide img {
+        width: 100%;
+    }
+    .active {
+        display: block;
+    }
+</style>
+    <div class="container-fluid">
+        <div class="col-md-5 no-float center-block the-image margin-top-15"
+             style=
+             "background-image: url('{{ asset('/pictures/'~post.bannerId.path) }}');
+              background-size: cover;
+              background-position: center center;
+              background-repeat: no-repeat;">
+        </div>
+
+        <div class="slider col-md-6 no-float center-block margin-top-35">
+            {% for slide in slider %}
+            <div class="slide">
+                <img class="img-responsive" src="{{ asset('/pictures/'~slide.pictureId.path) }}" alt="">
+            </div>
+            {% endfor %}
+            <div class="controls">
+                <span class="">Izquierda</span>
+                <span class="pull-right" id="right">Derecha</span>
+            </div>
+        </div>
+
+        <div class="col-md-6 text-center no-float center-block margin-top-15">
+            <h2>{{ post.title }}</h2>
+            <div class="content-content">
+                {{ post.content|raw }}
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            $(".slide:first-child").addClass("active");
+
+            size = $(".slide").size();
+            console.log(size);
+
+            $("#right").click(function(){
+                sliderRight();
+            });
+
+            function sliderRight () {
+                $(".slider").find(".slide").each(function (index, item) {
+                        console.log("Justo antes del if %s, %s", (index+1), $(item));
+                    if ($(item).hasClass("active")) {
+                        $(item).hide();
+                        $(item).removeClass("active");
+
+                        if ((index + 1) < size) {
+                            $($(".slider").find(".slide").get(index + 1)).fadeIn(600);
+                            $($(".slider").find(".slide").get(index + 1)).addClass("active");
+                            return false;
+                        } else {
+                            $($(".slider").find(".slide").get(0)).fadeIn(600);
+                            $($(".slider").find(".slide").get(0)).addClass("active");
+                            return false;
+                        }
+                    }
+                });
+            }
+
+        });
+    </script>
+{% endblock%}
