@@ -218,7 +218,11 @@
                 <span id="close-menu" class="fa fa-times"></span>
                 <li class="n-element"><a href="#">Inicio</a></li>
                 {% for category in categories %}
-                <li class="n-element"><a href="#"><span>+</span> {{ category.name }}</a>
+                <li class="n-element"><a href="#">
+                        {% if category.subCat|length > 0 %}
+                        <span>+</span>
+                        {% endif %}
+                        {{ category.name }}</a>
                 	<ul class="sub-nav">
                 	{% for subCategory in category.subCat %}
                 		<li class="sub-n-element"><a href="#">{{ subCategory.name }}</a></li>

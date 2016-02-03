@@ -30,6 +30,18 @@
     .active {
         display: block;
     }
+    .image-content {
+        margin-right: auto;
+        margin-left: auto;
+        width: 50%;
+    }
+    .picture {
+        width: 35%;
+        display: inline-flex;
+        margin-left: auto;
+        margin-right: auto;
+        float: none;
+    }
 </style>
     <div class="container-fluid">
         <div class="col-md-5 no-float center-block the-image margin-top-15"
@@ -40,19 +52,13 @@
               background-repeat: no-repeat;">
         </div>
 
-        <div class="slider col-md-6 no-float center-block margin-top-35">
+        <div class="image-content col-md-12 no-float margin-top-35">
             {% for slide in slider %}
-            <div class="slide">
-                <img class="img-responsive" src="{{ asset('/pictures/'~slide.pictureId.path) }}" alt="">
-            </div>
+                <img src="{{ asset("/pictures/"~slide.pictureId.path) }}" alt="" class="img-responsive picture">
             {% endfor %}
-            <div class="controls">
-                <span class="">Izquierda</span>
-                <span class="pull-right" id="right">Derecha</span>
-            </div>
         </div>
 
-        <div class="col-md-6 text-center no-float center-block margin-top-15">
+        <div class="col-md-12 text-center margin-top-15">
             <h2>{{ post.title }}</h2>
             <div class="content-content">
                 {{ post.content|raw }}
@@ -66,31 +72,6 @@
 
             size = $(".slide").size();
             console.log(size);
-
-            $("#right").click(function(){
-                sliderRight();
-            });
-
-            function sliderRight () {
-                $(".slider").find(".slide").each(function (index, item) {
-                        console.log("Justo antes del if %s, %s", (index+1), $(item));
-                    if ($(item).hasClass("active")) {
-                        $(item).hide();
-                        $(item).removeClass("active");
-
-                        if ((index + 1) < size) {
-                            $($(".slider").find(".slide").get(index + 1)).fadeIn(600);
-                            $($(".slider").find(".slide").get(index + 1)).addClass("active");
-                            return false;
-                        } else {
-                            $($(".slider").find(".slide").get(0)).fadeIn(600);
-                            $($(".slider").find(".slide").get(0)).addClass("active");
-                            return false;
-                        }
-                    }
-                });
-            }
-
         });
     </script>
 {% endblock%}
