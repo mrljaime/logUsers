@@ -15,63 +15,70 @@
     .margin-top-15 {
         margin-top: 15px;
     }
-    .margin-top-35 {
-        margin-top: 35px;
-    }
-    .slider {
-        position: relative;
-    }
-    .slide {
-        display: none;
-    }
-    .slide img {
-        width: 100%;
-    }
-    .active {
-        display: block;
-    }
-    .image-content {
-        margin-right: auto;
-        margin-left: auto;
-        width: 50%;
-    }
-    .picture {
-        width: 35%;
-        display: inline-flex;
+    .the-center {
         margin-left: auto;
         margin-right: auto;
-        float: none;
+    }
+    .the-title {
+        font-family: 'Warnes', 'cursive';
     }
 </style>
     <div class="container-fluid">
-        <div class="col-md-5 no-float center-block the-image margin-top-15"
-             style=
-             "background-image: url('{{ asset('/pictures/'~post.bannerId.path) }}');
-              background-size: cover;
-              background-position: center center;
-              background-repeat: no-repeat;">
-        </div>
 
-        <div class="image-content col-md-12 no-float margin-top-35">
-            {% for slide in slider %}
-                <img src="{{ asset("/pictures/"~slide.pictureId.path) }}" alt="" class="img-responsive picture">
-            {% endfor %}
-        </div>
-
-        <div class="col-md-12 text-center margin-top-15">
-            <h2>{{ post.title }}</h2>
-            <div class="content-content">
-                {{ post.content|raw }}
-            </div>
+    <div class="col-md-5 no-float center-block  margin-top-15">
+        <div id="slider" class="col-md-12">
+            <ul class="slides">
+                {% for s in slider %}
+                    <li><img src="{{ asset('/pictures/'~s.pictureId.path) }}" class="img-responsive"></li>
+                {% endfor %}
+            </ul>
         </div>
     </div>
 
+    <div class="col-md-5 no-float center-block margin-top-15">
+        <div id="carousel" class="col-md-12 the-center flexslider">
+            <ul class="slides">
+                {% for s in slider %}
+                    <li><img src="{{ asset('/pictures/'~s.pictureId.path) }}" class="img-responsive"></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <div class="col-md-12 margin-top-15">
+        <div class="the-title text-center">
+            <h3>{{ post.title }}</h3>
+        </div>
+    </div>
+
+    <link rel="stylesheet" href="{{ asset("/css/flexslider.css") }}">
+    <script src="{{ asset('/js/jquery.flexslider-min.js') }}"></script>
     <script>
         $(document).ready(function () {
             $(".slide:first-child").addClass("active");
 
             size = $(".slide").size();
             console.log(size);
+
+            $('#carousel').flexslider({
+                animation: "slide",
+                controlNav: false,
+                animationLoop: false,
+                slideshow: false,
+                itemWidth: 210,
+                itemMargin: 5,
+                asNavFor: '#slider'
+            });
+
+            $('#slider').flexslider({
+                animation: "slide",
+                controlNav: false,
+                animationLoop: false,
+                slideshow: false,
+                sync: "#carousel"
+            });
+
+
         });
     </script>
 {% endblock%}

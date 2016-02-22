@@ -24,15 +24,15 @@ class Slider
 
     /**
      * @var int
-     * @ORM\ManyToOne(targetEntity="Post")
-     * @ORM\JoinColumn(name="post_id", referencedColumnName="id")
+     * @ORM\OneToOne(targetEntity="Post")
+     * @ORM\JoinColumn(name="post_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $postId;
 
     /**
      * @var int
      * @ORM\ManyToOne(targetEntity="Picture")
-     * @ORM\JoinColumn(name="picture_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="picture_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $pictureId;
 
