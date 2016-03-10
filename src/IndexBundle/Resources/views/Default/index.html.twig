@@ -125,7 +125,6 @@
         height: 100px;
         width: 100px;
         border-radius: 50%;
-        background-color: #FAC2B0;
         text-align: center;
         margin-right: auto;
         margin-left: auto;
@@ -145,7 +144,6 @@
     }
     .header-center {
         height: 10px;
-        background-color: #FAC2B0;
     }
     .header-footer {
         margin-top: 50px;
@@ -251,7 +249,7 @@
 
         var height = $(".head").offset().top;
         $(window).scroll(function(){
-            if($(window).scrollTop() > $(".head").innerHeight()) {
+            if($(window).scrollTop() >= $(".head").innerHeight()) {
 //                console.log("Revasando el limite");
                 $(".head").addClass("head-fixed");
                 $(".the-search").hide("slide");

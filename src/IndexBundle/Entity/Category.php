@@ -51,6 +51,12 @@ class Category
      */
     private $subCat;
 
+    /**
+     * @ORM\Column(name="background_color", type="string", length=100, options={"default"="white"})
+     * @var
+     */
+    private $backgroundColor;
+
     
     public function __construct()
     {
@@ -144,6 +150,25 @@ class Category
     public function getIsActive()
     {
         return $this->isActive;
+    }
+
+    /**
+     * @param $backgroundColor
+     * @return $this
+     */
+    public function setBackgroundColor($backgroundColor)
+    {
+        $this->backgroundColor = $backgroundColor;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getBackgroundColor()
+    {
+        return $this->backgroundColor;
     }
 }
 

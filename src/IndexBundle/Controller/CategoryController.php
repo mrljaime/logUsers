@@ -50,6 +50,7 @@ class CategoryController extends Controller
         $form = $this->createFormBuilder($category)
             ->add('name', TextType::class, array("label" => "Nombre"))
             ->add('isActive', CheckBoxType::class, array("label" => "Activo", "required" => false))
+            ->add("backgroundColor", TextType::class, array("label" => "Color de fondo", "required" => false))
             ->add("save", SubmitType::class, array("label" => "Crear"))
             ->getForm();
 
@@ -116,21 +117,15 @@ class CategoryController extends Controller
     public function editCategory(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
-        $category = new Category();
 
         $result = $em->createQuery("select c from IndexBundle:Category c where c.id = :id")
             ->setParameter("id", $id)
             ->getOneOrNullResult();
 
-        $form = $this->createFormBuilder($category)
-            ->add("name", TextType::class, array("label" => "Nombre", "attr" => array(
-                "value" => $result->getName(),
-            )))
-            ->add("isActive", CheckboxType::class, array("label" => "Activa", "required" => false,
-                "attr" => array(
-                    "checked" => $category->getIsActive(),
-                    "value" => 1,
-                )))
+        $form = $this->createFormBuilder($result)
+            ->add("name", TextType::class, array("label" => "Nombre"))
+            ->add("isActive", CheckboxType::class, array("label" => "Activa", "required" => false))
+            ->add("backgroundColor", TextType::class, array("label" => "Color de fondo", "required" => false))
             ->add("save", SubmitType::class, array("label" => "Guardar cambio"))
             ->getForm();
 
