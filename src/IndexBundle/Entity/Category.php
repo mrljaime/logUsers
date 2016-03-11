@@ -57,13 +57,20 @@ class Category
      */
     private $backgroundColor;
 
+    /**
+     * @ORM\Column(name="is_favorite", type="integer")
+     * @var
+     */
+    private $isFavorite;
+
     
     public function __construct()
     {
     	$this->subCat = new ArrayCollection();
     }
+
     /**
-     * @return unknown
+     * @return ArrayCollection
      */
     public function getSubCat()
     {
@@ -169,6 +176,25 @@ class Category
     public function getBackgroundColor()
     {
         return $this->backgroundColor;
+    }
+
+    /**
+     * @param $isFavorite
+     * @return $this
+     */
+    public function setIsFavorite($isFavorite)
+    {
+        $this->isFavorite = $isFavorite;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIsFavorite()
+    {
+        return $this->isFavorite;
     }
 }
 

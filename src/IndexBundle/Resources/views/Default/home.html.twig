@@ -60,6 +60,8 @@
     @media (max-width: 770px) {
         .c-article {
             border: none;
+            padding-top: 15px;
+            padding-bottom: 15px;
         }
         .separateHeaderFromContent {
             display: none;
@@ -69,8 +71,9 @@
 
     <div class="header"></div>
 
+    {% set first = 1 %}
     {% for category in categories %}
-        <div class="cabecera col-md-4 col-sm-4">
+        <div class="cabecera col-md-4 col-sm-4" id="{{ (first == 1) ? "first" : "" }}">
             <div class="header-center" style="background-color: {{ category.backgroundColor }}">
                 <div class="circle" style="background-color: {{ category.backgroundColor }}">
                     <h3>{{ category.name|first }}</h3>
@@ -81,6 +84,7 @@
                 <div class="lineSeparator"></div>
             </div>
         </div>
+        {% set first = first+1 %}
     {% endfor %}
     <div class="separateHeaderFromContent"></div>
 

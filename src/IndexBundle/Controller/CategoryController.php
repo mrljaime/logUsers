@@ -160,6 +160,25 @@ class CategoryController extends Controller
     }
 
     /**
+     * @Route("/{id}/setFavorite", name="category_set_favorite")
+     */
+    public function isFavoriteAction(Request $request, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $category = $em->getRepository("IndexBundle:Category")->find($id);
+        $isFavorite = $category->getIsFavorite();
+
+        if (0 == $isFavorite) {
+            $category->setIsFavorite(1);
+        } else {
+            $category->setIsFavorite(0);
+        }
+        $em->persist($category);
+        $em->flush();
+        return $this->redirect($request->server->get("HTTP_REFERER"));
+    }
+
+    /**
      * @Route("/subCategory", name="category_sub_category")
      */
     public function indexSubCatAction()

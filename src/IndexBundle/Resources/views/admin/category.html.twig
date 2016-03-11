@@ -23,6 +23,9 @@
         text-align: center;
         padding-bottom:10px;
     }
+    #isFavorite {
+        cursor: pointer;
+    }
     @media (max-width: 480px){
         .cards{
             margin-top: 15px;
@@ -42,7 +45,7 @@
     {% if category|length > 0 %}
 <div class="col-md-12 margin-top-15">
         {% for cat in category %}
-        <div class="col-md-4 center-block cards">
+        <div id="theCard" data-id="{{ cat.id }}" class="col-md-4 center-block cards">
             <div class="my-card center-block">
                 <h2>{{ cat.name }}</h2>
                 <h4>{{ (cat.isActive == 1) ? "Activa" : "Inactiva"}}</h4>
@@ -51,6 +54,10 @@
                     Editar</button>
                 <button class="btn btn-danger" type="button" onclick="location.href='delete/{{ cat.id }}'">
                     Eliminar</button>
+                <button class="btn {{ (cat.isFavorite == 1) ? "btn-warning" : "" }}" type="button"
+                        onclick="location.href='{{ path("category_set_favorite", {'id' : cat.id}) }}'">
+                    Favorito
+                </button>
             </div>
         </div>
         {% endfor %}
@@ -78,4 +85,12 @@
     </div>
 
 
+    <script>
+        $("#isFavorite").click(function () {
+            var category =$(this).attr("data-id");
+            var isFavorite = $(this).attr("data-num");
+
+            console.log("%s, %s", category, isFavorite);
+        });
+    </script>
 {% endblock %}
