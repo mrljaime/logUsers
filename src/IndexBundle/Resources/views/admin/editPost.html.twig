@@ -40,6 +40,9 @@
         {{ form_label(form.content) }}
         {{ form_widget(form.content, {"attr" : {"class" : "form-control", "rows" : 10}}) }}
         <div class="errors">{{ form_errors(form.content) }}</div>
+        <script>
+            CKEDITOR.replace("form_content");
+        </script>
         {{ form_widget(form.isActive) }} Activo
         <div class="errors">{{ form_errors(form.isActive) }}</div>
         {{ form_label(form.categoryId) }}
@@ -69,9 +72,10 @@
         </div>
         <div class="the-images-slider-back">
             {% for slide in slider %}
-                <img class="img-responsive" src="{{ asset('/pictures/'~slide.pictureId.path) }}" alt="">
+                <img class="img-responsive margin-top-10" src="{{ asset('/pictures/'~slide.pictureId.path) }}" alt="">
                 <button
-                        onclick="location.href='{{ path('picture_slide_delete', {id : slide.id}) }}'">
+                        onclick="location.href='{{ path('picture_slide_delete', {id : slide.id}) }}'"
+                class="btn btn-primary margin-top-10">
                     Eliminar</button>
             {% endfor %}
         </div>
@@ -139,7 +143,7 @@
 
         $("#reset").click(function(){
             $("#fileName").empty();
-            files.length = 0;
+            files = [];
         });
 
         $("#fileSliderUpload").click(function(e){
@@ -147,6 +151,8 @@
             $(files).each(function(index, item){
                 sliderUpload.append(index, item);
             });
+
+        deleteSlider = '{{ path('picture_slide_delete', {'id' : '__ID__'}) }}';
 
             $.ajax({
                 url: '{{ path('picture_slider_create') }}',
@@ -159,7 +165,7 @@
                     $(".the-images-slider").empty();
                     $.each(data, function(index, value){
                         $(".the-images-slider").append(
-                                "<img class='img-responsive' src='" + value.url + "'/>"
+                                "<img class='img-responsive margin-top-10' src='" + value.url + "'/>"
                         );
                     })
                 },

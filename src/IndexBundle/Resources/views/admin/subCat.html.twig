@@ -41,7 +41,7 @@ Sub Categorías
             <div class="col-md-12 margin-top-15">
                 <div class="alert alert-success" role="alert">
                     No tienes sub categorias hasta ahora.
-                    <a href="{{ path("post.create") }}" title="Crear publicación">Deseas crear una?</a>
+                    <a href="{{ path("category_sub_category_create") }}" title="Crear sub categoría">Deseas crear una?</a>
                 </div>
             </div>
         </div>
@@ -55,10 +55,12 @@ Sub Categorías
                     <h2>{{ sub.name }}</h2>
                     <h4>{{ sub.categoryId.name }}</h4>
                     <button class="btn btn-primary" type="button"
-                            onclick="location.href=''">
+                            onclick=
+                            "location.href='{{ path('category_sub_category_edit', {id : sub.id}) }}'">
                         Editar</button>
                     <button class="btn btn-danger" type="button"
-                            onclick="location.href=''">
+                            onclick=
+                            "location.href='{{ path('category_sub_delete', {id : sub.id}) }}'">
                         Eliminar</button>
                 </div>
             </div>

@@ -1,6 +1,6 @@
 {% extends "IndexBundle:Default:index.html.twig" %}
 {% block title %}
-    Home
+    Bienvenidos!
 {% endblock %}
 {% block content %}
 <style>
@@ -48,9 +48,20 @@
         color: black;
         font-weight: bold;
     }
+    .marrow-light {
+        background-color: #FAC2B0;
+    }
+    .blue-light {
+        background-color: #CBFEFE;
+    }
+    .yellow-light {
+        background-color: #FCFCB1;
+    }
     @media (max-width: 770px) {
         .c-article {
             border: none;
+            padding-top: 15px;
+            padding-bottom: 15px;
         }
         .separateHeaderFromContent {
             display: none;
@@ -58,19 +69,37 @@
     }
 </style>
 
+    <div class="header"></div>
+
+    {% set first = 1 %}
+    {% for category in categories %}
+        <div class="cabecera col-md-4 col-sm-4" id="{{ (first == 1) ? "first" : "" }}">
+            <div class="header-center" style="background-color: {{ category.backgroundColor }}">
+                <div class="circle" style="background-color: {{ category.backgroundColor }}">
+                    <h3>{{ category.name|first }}</h3>
+                </div>
+            </div>
+            <div class="header-footer">
+                <h3>{{ category.name }}</h3>
+                <div class="lineSeparator"></div>
+            </div>
+        </div>
+        {% set first = first+1 %}
+    {% endfor %}
     <div class="separateHeaderFromContent"></div>
 
 
 {% for post in posts %}
-    <div class="c-article col-md-10 no-float center-block text-center">
+    <div class="c-article col-md-10 no-float center-block text-center"
+         style="background-color: {{ post.categoryId.categoryId.backgroundColor }};">
         <div class="col-md-7 no-float center-block">
             <img style="margin-top: 10px; border-radius: .3em;" class="img-responsive no-float center-block"
                  src="{{ asset("/pictures/"~post.bannerId.path) }}" alt="">
-            <h5 id="dateTime">{{ post.createdAt|date("d.m.Y") }}  {{ post.categoryId.name }}</h5>
+            <h5 id="dateTime">{{ post.createdAt|date("d.m.Y") }}</h5>
             <h4 id="title">{{ post.title }}</h4>
             <p id="shortDescription">{{ post.shortDescription }}</p>
         </div>
-        <p style="text-align: right;"><a href="#" id="linkToLanding" style="text-align: right;">Leer</a></p>
+        <p style="text-align: right;"><a href="{{ path('post_view', {id : post.id}) }}" id="linkToLanding" style="text-align: right;">Leer</a></p>
     </div>
 
 {% endfor %}

@@ -37,7 +37,7 @@ class Picture
 
     /**
      * @var
-     * @ORM\Column(name="section", type="string", length=255)
+     * @ORM\Column(name="section", type="string", length=255, options={"default" = NULL})
      */
     private $section;
 

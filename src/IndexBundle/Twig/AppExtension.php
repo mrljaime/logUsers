@@ -31,7 +31,7 @@ class AppExtension extends \Twig_Extension
         $segundos = $diff->s;
 
         if($dias == 0 && $horas == 0 && $minutos == 0){
-            return $diff->format("%s segundos");
+            return $diff->format("unos segundos");
         }
 
         if($dias == 0 && $horas == 0 && $minutos == 1){

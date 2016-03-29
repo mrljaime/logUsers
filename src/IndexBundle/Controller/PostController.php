@@ -184,11 +184,12 @@ class PostController extends Controller
             ->add("userId", HiddenType::class, array("attr" => array("value" => $result->getUserId()->getId())))
             ->add("bannerId", HiddenType::class, array("attr" => array("value" => $result->getBannerId()->getId())))
             ->add("isActive", CheckboxType::class,
-                array("label" => "Activo", "required" => false, "attr" => array("value" => $result->getIsActive())))
+                array("label" => "Activo", "required" => false, "attr" => array('checked' => $result->getIsActive())))
             ->add("categoryId", EntityType::class, array(
                 "label" => "Categorias",
                 'class' => 'IndexBundle:SubCat',
                 'choice_label' => 'name',
+                'data' => $result->getCategoryId(),
             ))
             ->add("save", SubmitType::class, array("label" => "Guardar"))
             ->getForm();
@@ -202,7 +203,7 @@ class PostController extends Controller
 
                 $user = $em->getRepository("IndexBundle:Users")->find($data->getUserId());
                 $picture = $em->getRepository("IndexBundle:Picture")->find($data->getBannerId());
-                $category = $em->getRepository("IndexBundle:Category")->find($data->getCategoryId());
+                $category = $em->getRepository("IndexBundle:SubCat")->find($data->getCategoryId());
 
 
                 $result->setTitle($data->getTitle());

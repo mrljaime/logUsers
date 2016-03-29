@@ -4,6 +4,10 @@
 {% endblock %}
 
 {% block content %}
+    <link rel="stylesheet" href="{{ asset("bundles/index/css/colorpicker.css") }}">
+    <script type="text/javascript" src="{{ asset("bundles/index/js/colorpicker.js") }}"></script>
+    <script type="text/javascript" src="{{ asset("bundles/index/js/utils.js") }}"></script>
+
 <style>
     .no-float{
         float: none;
@@ -16,14 +20,41 @@
 <div class="container">
     <div class="col-md-5 no-float center-block margin-top-10">
         {{ form_start(form, {"method" : "POST"}) }}
-        {{ form_label(form.name) }}
-        {{ form_widget(form.name, {"attr" : {"class" : "form-control"}}) }}
-        {{ form_errors(form.name) }}
-        {{ form_widget(form.isActive) }} Activo
-        <br>
-        {{ form_widget(form.save, {"attr" : {"class" : "btn btn-primary margin-top-10"}}) }}
+        <div class="row">
+            {{ form_label(form.name) }}
+            {{ form_widget(form.name, {"attr" : {"class" : "form-control"}}) }}
+            {{ form_errors(form.name) }}
+        </div>
+        <div class="row">
+            {{ form_widget(form.isActive) }} Activo
+            {{ form_errors(form.isActive) }}
+        </div>
+        <div class="row">
+            {{ form_label(form.backgroundColor) }}
+            {{ form_widget(form.backgroundColor, {attr : {"class" : "form-control"}}) }}
+        </div>
+        <div class="row">
+            {{ form_widget(form.save, {"attr" : {"class" : "btn btn-primary margin-top-10"}}) }}
+        </div>
         {{ form_end(form) }}
     </div>
 </div>
+
+    <script>
+        $("#form_backgroundColor").ColorPicker({
+            color: '#0000ff',
+            onShow: function (colpkr) {
+                $(colpkr).fadeIn(500);
+                return false;
+            },
+            onHide: function (colpkr) {
+                $(colpkr).fadeOut(500);
+                return false;
+            },
+            onChange: function (hsb, hex, rgb) {
+                $("#form_backgroundColor").val(hex);
+            }
+        });
+    </script>
 
 {% endblock %}

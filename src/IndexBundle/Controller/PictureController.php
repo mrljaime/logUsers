@@ -97,34 +97,25 @@ class PictureController extends Controller
         }
 
         foreach ($files as $file) {
-            $md5 = md5_file($file);
-            $select = $em->createQuery("select p from IndexBundle:Picture p where p.md5=:md5")
-                ->setParameter("md5", $md5)
-                ->getOneOrNullResult();
-            if (is_null($select)) {
-                $ext = strtolower($file->getClientOriginalExtension());
-                $fileName = $md5 . "." . $ext;
-                $file->move(__DIR__."/../../../web/pictures/", $fileName);
-                $picture->setMd5($md5);
-                $picture->setPath($fileName);
-                $picture->setSection("slider");
-                $em->persist($picture);
-                $em->flush();
 
-                $this->persistAndFlushSlider($picture, $post);
-                $url = $request->getUriForPath("/pictures/".$fileName);
-                $data = array(
-                    'url' => $url,
-                );
-                array_push($result, $data);
-            } else {
-                $url = $request->getUriForPath("/pictures/".$select->getPath());
-                $this->persistAndFlushSlider($select, $post);
-                $data = array(
-                    'url' => $url,
-                );
-                array_push($result, $data);
-            }
+            $uid = uniqid();
+            $md5 = md5($uid);
+            $ext = strtolower($file->getClientOriginalExtension());
+            $fileName = $md5 . "." . $ext;
+
+            $file->move(__DIR__."/../../../web/pictures/", $fileName);
+            $picture->setMd5($md5);
+            $picture->setPath($fileName);
+            $picture->setSection("slider");
+            $em->persist($picture);
+            $em->flush();
+
+            $this->persistAndFlushSlider($picture, $post);
+            $url = $request->getUriForPath("/pictures/".$fileName);
+            $data = array(
+                'url' => $url,
+            );
+            array_push($result, $data);
         }
 
         return new JsonResponse($result);
@@ -143,6 +134,9 @@ class PictureController extends Controller
             ->setParameter("id", $id)
             ->getOneOrNullResult();
         if (!is_null($slide)) {
+            unlink("./pictures/".$slide->getPictureId()->getPath());
+            $picture = $em->getRepository("IndexBundle:Picture")->find($slide->getPictureId()->getId());
+            $em->remove($picture);
             $em->remove($slide);
             $em->flush();
             return $this->redirect($request->server->get("HTTP_REFERER"));

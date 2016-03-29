@@ -1,0 +1,84 @@
+{% extends "IndexBundle:Default:index.html.twig" %}
+{% block title %}
+    {{ post.title }}
+{% endblock %}
+{% block content %}
+<style>
+    .the-image {
+        height: 350px;
+        border-radius: .4em;
+        border: solid 1px black;
+    }
+    .no-float {
+        float: none;
+    }
+    .margin-top-15 {
+        margin-top: 15px;
+    }
+    .the-center {
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .the-title {
+        font-family: 'Warnes', 'cursive';
+    }
+</style>
+    <div class="container-fluid">
+
+    <div class="col-md-5 no-float center-block  margin-top-15">
+        <div id="slider" class="col-md-12">
+            <ul class="slides">
+                {% for s in slider %}
+                    <li><img src="{{ asset('/pictures/'~s.pictureId.path) }}" class="img-responsive"></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <div class="col-md-5 no-float center-block margin-top-15">
+        <div id="carousel" class="col-md-12 the-center flexslider">
+            <ul class="slides">
+                {% for s in slider %}
+                    <li><img src="{{ asset('/pictures/'~s.pictureId.path) }}" class="img-responsive"></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <div class="col-md-12 margin-top-15">
+        <div class="the-title text-center">
+            <h3>{{ post.title }}</h3>
+        </div>
+    </div>
+
+    <link rel="stylesheet" href="{{ asset("/css/flexslider.css") }}">
+    <script src="{{ asset('/js/jquery.flexslider-min.js') }}"></script>
+    <script>
+        $(document).ready(function () {
+            $(".slide:first-child").addClass("active");
+
+            size = $(".slide").size();
+            console.log(size);
+
+            $('#carousel').flexslider({
+                animation: "slide",
+                controlNav: false,
+                animationLoop: false,
+                slideshow: false,
+                itemWidth: 210,
+                itemMargin: 5,
+                asNavFor: '#slider'
+            });
+
+            $('#slider').flexslider({
+                animation: "slide",
+                controlNav: false,
+                animationLoop: false,
+                slideshow: false,
+                sync: "#carousel"
+            });
+
+
+        });
+    </script>
+{% endblock%}
