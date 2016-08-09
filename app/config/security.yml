@@ -30,7 +30,7 @@ security:
             form_login:
                 check_path: /admin/dologin
                 login_path: /admin/login
-                default_target_path: /admin/index
+                default_target_path: /admin/
             logout:
                 path: /admin/logout
                 target: /admin/login
